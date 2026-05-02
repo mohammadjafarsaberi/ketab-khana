@@ -12,7 +12,10 @@ class CategoryFactory extends Factory
     public function definition()
     {
         return [
-
+            'name' => fake()->unique()->word(),
+            'slug' => fn ($attr) => \Str::slug($attr['name']),
+            'description' => fake()->sentence(10),
+            'is_active' => true,
         ];
     }
 }

@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Favorite;
+use App\Models\Book;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class FavoriteFactory extends Factory
 {
-    protected $model = Favorite::class;
-
-    public function definition()
+    public function definition(): array
     {
         return [
-
+            'user_id' => User::inRandomOrder()->first()?->id ?? 1,
+            'book_id' => Book::inRandomOrder()->first()?->id ?? 1,
         ];
     }
 }

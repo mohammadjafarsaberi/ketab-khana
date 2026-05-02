@@ -13,6 +13,29 @@ export default function Register() {
     return (
         <>
             <Head title="Register" />
+            <Button
+                variant="outline"
+                className="flex w-full items-center justify-center gap-3 py-6 text-base cursor-pointer"
+                onClick={() => (window.location.href = '/auth/google')}
+            >
+                <img
+                    src="https://www.google.com/favicon.ico"
+                    alt="Google"
+                    className="h-5 w-5"
+                />
+                Continue with Google
+            </Button>
+
+            <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                    <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-background px-2 text-muted-foreground">
+                        OR
+                    </span>
+                </div>
+            </div>
             <Form
                 {...store.form()}
                 resetOnSuccess={['password', 'password_confirmation']}

@@ -9,6 +9,9 @@ class CategoryRequest extends FormRequest
     public function rules()
     {
         return [
+            'name' => 'required',
+            'description' => 'required',
+            'is_active' => 'required',
 
         ];
     }

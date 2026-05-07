@@ -1,4 +1,4 @@
-import { Form } from '@inertiajs/react';
+import { Form, Head } from '@inertiajs/react';
 import { update } from '@/actions/App/Http/Controllers/CategoryController';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -11,18 +11,23 @@ const Edit = ({category}:{category:Category}) => {
 
     return (
         <div>
+            <Head title="Categories" />
+
             <Form
                 action={update(category.id)}
                 method="post"
                 resetOnSuccess
                 // onSuccess={}
-
             >
                 {({ errors, processing, defaults }) => (
                     <>
                         <div>
                             <Label htmlFor="name">Name</Label>
-                            <Input id="name" name="name" defaultValue={category.name} />
+                            <Input
+                                id="name"
+                                name="name"
+                                defaultValue={category.name}
+                            />
                             {errors.name && (
                                 <div className="mt-1 text-sm text-red-500">
                                     {errors.name}
@@ -50,7 +55,7 @@ const Edit = ({category}:{category:Category}) => {
                             <Checkbox
                                 id="is_active"
                                 name="is_active"
-                                defaultChecked={category.isActive}
+                                defaultChecked={category.is_active}
                             />
                             <Label htmlFor="is_active">Active</Label>
                             {errors.is_active && (

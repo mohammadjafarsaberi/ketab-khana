@@ -1,17 +1,18 @@
 import type { ColumnDef } from "@tanstack/react-table"
+import { SortButton } from '@/components/SortButton';
 
 
 export type Category = {
     id: number
     name: string
-    isActive: boolean
+    is_active: boolean
     description: string
 }
 
 export const categoryColumns: ColumnDef<Category>[] = [
     {
         accessorKey: 'id',
-        header: 'ID',
+        header: ({ column }) => <SortButton column={column} label={"ID"}/>,
     },
     {
         accessorKey: 'name',
@@ -22,10 +23,10 @@ export const categoryColumns: ColumnDef<Category>[] = [
         header: 'Description',
     },
     {
-        accessorKey: 'isActive',
-        header: 'Active',
+        accessorKey: 'is_active',
+        header: ({ column }) => <SortButton column={column} label={"Active"}/>,
         cell: ({ row }) => {
-            const isActive = row.getValue('isActive') == true ? 'Yes' : 'No';
+            const isActive = row.getValue('is_active') == true ? 'Yes' : 'No';
 
             return <div>{isActive}</div>;
         },

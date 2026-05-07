@@ -1,6 +1,5 @@
-import { Form } from '@inertiajs/react';
+import { Form, Head } from '@inertiajs/react';
 import { store } from '@/actions/App/Http/Controllers/CategoryController';
-import {index} from '@/actions/App/Http/Controllers/CategoryController'
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
@@ -11,11 +10,12 @@ const Create = () => {
 
     return (
         <div>
+            <Head title="Categories" />
             <Form
                 action={store()}
                 method="post"
                 resetOnSuccess
-                // onSuccess={}
+
             >
                 {({ errors, processing, reset }) => (
                     <>
@@ -80,5 +80,6 @@ const Create = () => {
         </div>
     );
 };
+
 
 export default Create;

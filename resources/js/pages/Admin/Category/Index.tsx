@@ -9,12 +9,13 @@ import { categoryColumns } from '@/pages/Admin/Category/Column';
 import { index, create, edit } from '@/routes/categories';
 import type { PaginatedResponse } from '@/types/pagination';
 
-// ✅ Correct typing: data is directly PaginatedResponse<Category>
 export default function Index({
     data: { data, meta, links },
 }: {
     data: PaginatedResponse<Category>;
 }) {
+
+
     const columns = useDataTableColumns(categoryColumns, {
         onView: (category) => console.log(category),
         onEdit: (category) => router.visit(edit(category.id)),

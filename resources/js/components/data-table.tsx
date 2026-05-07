@@ -1,6 +1,6 @@
 // components/data-table.tsx
 import { router } from '@inertiajs/react';
-import type { ColumnDef } from '@tanstack/react-table';
+import type { ColumnDef, SortingState } from '@tanstack/react-table';
 import {
     flexRender,
     getCoreRowModel,
@@ -12,6 +12,7 @@ import {
     ChevronsLeft,
     ChevronsRight,
 } from 'lucide-react';
+import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -46,13 +47,71 @@ export function DataTable<TData, TValue>({
     links,
     onPageChange,
 }: DataTableProps<TData, TValue>) {
+    // Read sorting from URL
+    const getSortingFromURL = (): SortingState => {
+        const params = new URLSearchParams(window.location.search);
+        const sortParam = params.get('sort');
+
+        if (sortParam) {
+            const isDesc = sortParam.startsWith('-');
+            const field = isDesc ? sortParam.substring(1) : sortParam;
+
+            return [{ id: field, desc: isDesc }];
+        }
+
+        return [];
+    };
+
+    const [sorting, setSorting] = useState<SortingState>(getSortingFromURL());
+
+    // Handle sort changes - Fixed typing
+    const handleSortingChange = (
+        updaterOrValue: SortingState | ((old: SortingState) => SortingState),
+    ) => {
+        // Calculate the new sorting state
+        const newSorting =
+            typeof updaterOrValue === 'function'
+                ? updaterOrValue(sorting)
+                : updaterOrValue;
+
+        setSorting(newSorting);
+
+        const url = new URL(window.location.href);
+
+        if (newSorting.length > 0) {
+            const sort = newSorting[0];
+            const sortValue = sort.desc ? `-${sort.id}` : sort.id;
+            url.searchParams.set('sort', sortValue);
+        } else {
+            url.searchParams.delete('sort');
+        }
+
+        // Reset to page 1 when sorting changes
+        url.searchParams.set('page', '1');
+
+        router.get(
+            url.pathname + url.search,
+            {},
+            {
+                preserveState: true,
+                preserveScroll: true,
+                replace: true,
+            },
+        );
+    };
+
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
+        state: {
+            sorting,
+        },
+        onSortingChange: handleSortingChange,
+        manualSorting: true,
     });
 
-    // ✅ Calculate derived values
+    // Calculate derived values
     const currentPage = meta?.current_page ?? 1;
     const pageSize = meta?.per_page ?? 10;
     const totalCount = meta?.total ?? data.length;
@@ -60,10 +119,9 @@ export function DataTable<TData, TValue>({
     const from = meta?.from ?? (currentPage - 1) * pageSize + 1;
     const to = meta?.to ?? Math.min(currentPage * pageSize, totalCount);
 
-
     const handlePageNavigation = (url: string | null) => {
         if (!url) {
-        return;
+            return;
         }
 
         if (onPageChange) {
@@ -71,15 +129,14 @@ export function DataTable<TData, TValue>({
             const page = new URL(url).searchParams.get('page');
 
             if (page) {
-            onPageChange(parseInt(page), pageSize);
+                onPageChange(parseInt(page), pageSize);
             }
 
             return;
-             }
+        }
 
         router.visit(url);
     };
-
 
     const handlePageSizeChange = (newPageSize: number) => {
         if (onPageChange) {
@@ -97,7 +154,7 @@ export function DataTable<TData, TValue>({
 
     return (
         <div className="space-y-4">
-            {/* ✅ Table */}
+            {/* Table */}
             <div className="overflow-hidden rounded-md border">
                 <Table>
                     <TableHeader>
@@ -150,7 +207,7 @@ export function DataTable<TData, TValue>({
                 </Table>
             </div>
 
-            {/* ✅ Pagination Controls — only render if meta/links provided */}
+            {/* Pagination Controls — only render if meta/links provided */}
             {meta && links && (
                 <div className="flex items-center justify-between px-2">
                     {/* Entry count info */}

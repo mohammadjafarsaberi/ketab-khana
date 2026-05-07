@@ -7,6 +7,7 @@ use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class CategoryController extends Controller
 {
@@ -16,7 +17,7 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
 
-        $categories = Category::latest()->paginate(perPage: $request->query('per_page', 10))->withQueryString();
+        $categories = QueryBuilder::for(Category::class)->allowedSorts('id', 'is_active')->paginate(perPage: ($request->query('perPage', 10)), page: $request->query('page', 1))->appends($request->query());
 
         return Inertia::render('Admin/Category/Index', [
             'data' => CategoryResource::collection($categories),
@@ -39,6 +40,10 @@ class CategoryController extends Controller
 
         Category::create($request->validated());
 
+        Inertia::flash('success', 'Category created successfully.');
+
+        return redirect()->route('categories.index');
+
     }
 
     /**
@@ -60,6 +65,10 @@ class CategoryController extends Controller
     public function update(CategoryRequest $request, Category $category)
     {
         $category->update($request->validated());
+
+        Inertia::flash('success', 'Category updated successfully.');
+
+        return redirect()->route('categories.index');
     }
 
     /**
@@ -68,5 +77,7 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
+
+        Inertia::flash('success', 'Category deleted successfully.');
     }
 }

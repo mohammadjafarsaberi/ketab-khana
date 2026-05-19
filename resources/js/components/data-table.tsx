@@ -272,7 +272,7 @@ export function DataTable<TData, TValue>({
                             </Button>
 
                             {/* Page indicator */}
-                            <div className="flex w-25 items-center justify-center text-sm font-medium">
+                            <div className="flex  items-center justify-center text-sm font-medium">
                                 Page {currentPage} of {pageCount}
                             </div>
 

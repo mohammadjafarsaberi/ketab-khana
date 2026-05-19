@@ -14,7 +14,8 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
-import { index } from '@/routes/categories';
+import { index as categories} from '@/routes/categories';
+import { index as authors } from '@/routes/authors';
 import type { NavItem } from '@/types';
 
 const mainNavItems: NavItem[] = [
@@ -25,7 +26,12 @@ const mainNavItems: NavItem[] = [
     },
     {
         title:'Categories',
-        href: index(),
+        href: categories(),
+        icon: LayoutGrid,
+    },
+    {
+        title:'Authors',
+        href: authors(),
         icon: LayoutGrid,
     }
 ];

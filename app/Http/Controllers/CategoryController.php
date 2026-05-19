@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CategoryRequest;
+use App\Http\Requests\Admin\CategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -17,7 +17,7 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
 
-        $categories = QueryBuilder::for(Category::class)->allowedSorts('id', 'is_active')->paginate(perPage: ($request->query('perPage', 10)), page: $request->query('page', 1))->appends($request->query());
+        $categories = QueryBuilder::for(Category::class)->allowedSorts('id', 'is_active', 'created_at')->defaultSort('-created_at')->paginate(perPage: ($request->query('perPage', 10)), page: $request->query('page', 1))->appends($request->query());
 
         return Inertia::render('Admin/Category/Index', [
             'data' => CategoryResource::collection($categories),

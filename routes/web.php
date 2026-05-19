@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
@@ -12,6 +13,7 @@ Route::inertia('/', 'welcome', [
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
     Route::resource('categories', CategoryController::class);
+    Route::resource('authors', AuthorController::class);
 });
 
 Route::get('/auth/google', [GoogleController::class, 'redirect'])

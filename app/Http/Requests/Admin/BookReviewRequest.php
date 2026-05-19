@@ -1,17 +1,14 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CategoryRequest extends FormRequest
+class BookReviewRequest extends FormRequest
 {
     public function rules()
     {
         return [
-            'name' => 'required',
-            'description' => 'required',
-            'is_active' => 'required',
 
         ];
     }

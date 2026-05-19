@@ -16,13 +16,11 @@ export default function Index({
 }) {
 
 
-    const columns = useDataTableColumns(categoryColumns, {
+    const {columns,DeleteDialog} = useDataTableColumns(categoryColumns, {
         onView: (category) => console.log(category),
         onEdit: (category) => router.visit(edit(category.id)),
         onDelete: (category) => {
-            if (confirm('Are you sure?')) {
                 router.delete(destroy(category.id));
-            }
         },
         custom: [
             {
@@ -54,6 +52,7 @@ export default function Index({
                 meta={meta}
                 links={links}
             />
+            <DeleteDialog/>
         </div>
     );
 }

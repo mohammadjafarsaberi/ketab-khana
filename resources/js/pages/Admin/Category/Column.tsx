@@ -7,6 +7,7 @@ export type Category = {
     name: string
     is_active: boolean
     description: string
+    slug: string
 }
 
 export const categoryColumns: ColumnDef<Category>[] = [

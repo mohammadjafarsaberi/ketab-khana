@@ -46,7 +46,7 @@ class Category extends Model
         });
 
         static::updating(function ($category) {
-            if ($category->isDirty('name') ) {
+            if ($category->isDirty('name')) {
                 $category->slug = static::generateUniqueSlug($category->name);
             }
         });
@@ -59,11 +59,10 @@ class Category extends Model
         $count = 1;
 
         while (static::where('slug', $slug)->exists()) {
-            $slug = $originalSlug . '-' . $count;
+            $slug = $originalSlug.'-'.$count;
             $count++;
         }
 
         return $slug;
     }
-
 }

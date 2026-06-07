@@ -49,7 +49,13 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Category $category) {}
+    public function show(Category $category)
+    {
+
+        return Inertia::render('Admin/Category/Show', [
+            'category' => new CategoryResource($category),
+        ]);
+    }
 
     /**
      * Show the form for editing the specified resource.

@@ -1,12 +1,12 @@
 import { Form, Head } from '@inertiajs/react';
 import { update } from '@/actions/App/Http/Controllers/AuthorController';
+import { FileInput } from '@/components/FIleInput';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import type { Author } from '@/pages/Admin/Author/Column';
 const Edit = ({author}:{author:Author}) => {
-    console.log(author);
 
     return (
         <div>
@@ -52,27 +52,12 @@ const Edit = ({author}:{author:Author}) => {
 
                         <div className="mt-4">
                             <Label htmlFor="image">Image</Label>
-                            <Input
+                            <FileInput
                                 id="image"
                                 name="image"
-                                type="file"
                                 accept="image/*"
+                                value={author.image}
                             />
-                            {errors.image && (
-                                <div className="mt-1 text-sm text-red-500">
-                                    {errors.image}
-                                </div>
-                            )}
-                            {author.image && (
-                                <div className="mt-2">
-                                    <p className="text-sm text-gray-500">Current image:</p>
-                                    <img 
-                                        src={author.image} 
-                                        alt={author.name} 
-                                        className="mt-1 h-20 w-20 rounded object-cover"
-                                    />
-                                </div>
-                            )}
                         </div>
 
                         <div className={'mt-4 flex items-center gap-4'}>

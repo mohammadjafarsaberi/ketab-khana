@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useDataTableColumns } from '@/hooks/use-data-table-columns';
 import type { Category } from '@/pages/Admin/Category/Column';
 import { categoryColumns } from '@/pages/Admin/Category/Column';
-import { index, create, edit } from '@/routes/categories';
+import { index, create, edit,show } from '@/routes/categories';
 import type { PaginatedResponse } from '@/types/pagination';
 
 export default function Index({
@@ -15,9 +15,8 @@ export default function Index({
     data: PaginatedResponse<Category>;
 }) {
 
-
     const {columns,DeleteDialog} = useDataTableColumns(categoryColumns, {
-        onView: (category) => console.log(category),
+        onView: (category) => router.visit(show(category.id)),
         onEdit: (category) => router.visit(edit(category.id)),
         onDelete: (category) => {
                 router.delete(destroy(category.id));
@@ -26,11 +25,6 @@ export default function Index({
             {
                 label: 'Preview',
                 icon: '📖',
-                onClick: (item) => console.log(item),
-            },
-            {
-                label: 'Download All',
-                icon: '⬇️',
                 onClick: (item) => console.log(item),
             },
         ],

@@ -4,18 +4,14 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { FileInput } from '@/components/FIleInput';
 const Create = () => {
 
 
     return (
         <div>
             <Head title="Authors" />
-            <Form
-                action={store()}
-                method="post"
-                resetOnSuccess
-
-            >
+            <Form action={store()} method="post" resetOnSuccess>
                 {({ errors, processing, reset }) => (
                     <>
                         <div>
@@ -45,10 +41,9 @@ const Create = () => {
 
                         <div className="mt-4">
                             <Label htmlFor="image">Image</Label>
-                            <Input
+                            <FileInput
                                 id="image"
                                 name="image"
-                                type="file"
                                 accept="image/*"
                             />
                             {errors.image && (
@@ -74,7 +69,6 @@ const Create = () => {
                                 Reset
                             </Button>
                         </div>
-
                     </>
                 )}
             </Form>

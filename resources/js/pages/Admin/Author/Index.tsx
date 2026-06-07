@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useDataTableColumns } from '@/hooks/use-data-table-columns';
 import type { Author } from '@/pages/Admin/Author/Column';
 import { authorColumns } from '@/pages/Admin/Author/Column';
-import { index, create, edit } from '@/routes/authors';
+import { index, create, edit,show } from '@/routes/authors';
 import type { PaginatedResponse } from '@/types/pagination';
 
 export default function Index({
@@ -17,7 +17,7 @@ export default function Index({
 
 
     const {columns, DeleteDialog} = useDataTableColumns(authorColumns, {
-        onView: (author) => console.log(author),
+        onView: (author) => router.visit(show(author.id)),
         onEdit: (author) => router.visit(edit(author.id)),
         onDelete: (author) => {
                 router.delete(destroy(author.id));

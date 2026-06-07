@@ -7,7 +7,6 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import type { Category } from '@/pages/Admin/Category/Column';
 const Edit = ({category}:{category:Category}) => {
-    console.log(category);
 
     return (
         <div>
@@ -17,7 +16,6 @@ const Edit = ({category}:{category:Category}) => {
                 action={update(category.id)}
                 method="post"
                 resetOnSuccess
-                // onSuccess={}
             >
                 {({ errors, processing, defaults }) => (
                     <>

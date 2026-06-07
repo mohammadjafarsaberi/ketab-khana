@@ -1,4 +1,5 @@
 import type { ColumnDef } from "@tanstack/react-table"
+import { AvatarWithFallback } from '@/components/AvatarWithFallback';
 import { SortButton } from '@/components/SortButton';
 
 
@@ -13,7 +14,7 @@ export type Author = {
 export const authorColumns: ColumnDef<Author>[] = [
     {
         accessorKey: 'id',
-        header: ({ column }) => <SortButton column={column} label={"ID"}/>,
+        header: ({ column }) => <SortButton column={column} label={'ID'} />,
     },
     {
         accessorKey: 'name',
@@ -32,7 +33,22 @@ export const authorColumns: ColumnDef<Author>[] = [
         header: 'Books Count',
         cell: ({ row }) => {
             const count = row.getValue('books_count') as number;
+
             return <div>{count || 0}</div>;
+        },
+    },
+    {
+        accessorKey: 'image',
+        header: 'Image',
+        cell: ({ row }) => {
+            const author = row.original;
+            return (
+                <AvatarWithFallback
+                    image={author.image}
+                    name={author.name}
+                    className="h-8 w-8" // Optional: adjust size as needed
+                />
+            );
         },
     },
 ];

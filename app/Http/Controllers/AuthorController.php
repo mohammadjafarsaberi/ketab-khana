@@ -73,7 +73,7 @@ class AuthorController extends Controller
 
         Inertia::flash('success', 'Author created successfully.');
 
-        return redirect()->route('authors.index');
+        return redirect()->route('admin.authors.index');
     }
 
     /**
@@ -93,29 +93,24 @@ class AuthorController extends Controller
     {
         $validated = $request->validated();
 
+        $newImage = $request->hasFile('image')
+            ? $fileHandler->upload($request->file('image'), 'authors', 'author')
+            : null;
+        $oldImage = $author->image;
+
         $author->update([
             'name' => $validated['name'],
             'bio' => $validated['bio'] ?? null,
+            ...($newImage ? ['image' => $newImage] : []),
         ]);
 
-        // Handle Image Update
-        if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($author->image) {
-                $fileHandler->delete($author->image);
-            }
-
-            $author->image = $fileHandler->upload(
-                $request->file('image'),
-                'authors',
-                'author'
-            );
-            $author->save();
+        if ($newImage && $oldImage) {
+            $fileHandler->delete($oldImage);
         }
 
         Inertia::flash('success', 'Author updated successfully.');
 
-        return redirect()->route('authors.index');
+        return redirect()->route('admin.authors.index');
     }
 
     /**
@@ -124,7 +119,9 @@ class AuthorController extends Controller
     public function destroy(Author $author, FileHandler $fileHandler)
     {
         if ($author->books()->exists()) {
-            return back()->with('error', 'Cannot delete an author who has associated books.');
+            Inertia::flash('error', 'Cannot delete an author that still has books. Reassign or delete those books first.');
+
+            return redirect()->back();
         }
 
         // Delete image if exists

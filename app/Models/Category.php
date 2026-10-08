@@ -41,7 +41,7 @@ class Category extends Model
 
         static::creating(function ($category) {
             if (empty($category->slug)) {
-                $category->slug = static::generateUniqueSlug($category->name);
+                $category->slug = static::generateUniqueSlug($category->name, $category->getKey());
             }
         });
 
@@ -52,13 +52,13 @@ class Category extends Model
         });
     }
 
-    protected static function generateUniqueSlug($name)
+    protected static function generateUniqueSlug(string $name, ?int $ignoreId = null): string
     {
         $slug = Str::slug($name);
         $originalSlug = $slug;
         $count = 1;
 
-        while (static::where('slug', $slug)->exists()) {
+        while (static::query()->where('slug', $slug)->when($ignoreId, fn ($query) => $query->whereKeyNot($ignoreId))->exists()) {
             $slug = $originalSlug.'-'.$count;
             $count++;
         }

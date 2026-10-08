@@ -10,17 +10,38 @@ class BookPolicy
 {
     use HandlesAuthorization;
 
-    public function viewAny(User $user) {}
+    public function viewAny(User $user): bool
+    {
+        return $user->isAdmin();
+    }
 
-    public function view(User $user, Book $book) {}
+    public function view(User $user, Book $book): bool
+    {
+        return $user->isAdmin();
+    }
 
-    public function create(User $user) {}
+    public function create(User $user): bool
+    {
+        return $user->isAdmin();
+    }
 
-    public function update(User $user, Book $book) {}
+    public function update(User $user, Book $book): bool
+    {
+        return $user->isAdmin();
+    }
 
-    public function delete(User $user, Book $book) {}
+    public function delete(User $user, Book $book): bool
+    {
+        return $user->isAdmin();
+    }
 
-    public function restore(User $user, Book $book) {}
+    public function restore(User $user, Book $book): bool
+    {
+        return $user->isAdmin();
+    }
 
-    public function forceDelete(User $user, Book $book) {}
+    public function forceDelete(User $user, Book $book): bool
+    {
+        return $user->isAdmin();
+    }
 }

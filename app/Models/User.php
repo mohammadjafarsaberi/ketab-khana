@@ -7,9 +7,11 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
+use Spatie\Permission\Traits\HasRoles;
 
 #[Fillable(['name', 'email', 'password', 'provider',
     'provider_id',
@@ -21,7 +23,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, TwoFactorAuthenticatable;
+    use HasFactory, HasRoles, Notifiable, SoftDeletes, TwoFactorAuthenticatable;
 
     /**
      * Get the attributes that should be cast.
@@ -65,8 +67,7 @@ class User extends Authenticatable
     // Helper Methods
     public function isAdmin(): bool
     {
-        // You can improve this later with Spatie Permission
-        return $this->password !== null;
+        return $this->hasRole('admin');
     }
 
     public function incrementDownloads(): void
@@ -84,6 +85,10 @@ class User extends Authenticatable
             ->first();
 
         if ($user) {
+            if (! $user->roles()->exists()) {
+                $user->assignRole('user');
+            }
+
             return $user;
         }
 
@@ -99,11 +104,15 @@ class User extends Authenticatable
                 'name' => $googleUser->getName() ?? $user->name,
             ]);
 
+            if (! $user->roles()->exists()) {
+                $user->assignRole('user');
+            }
+
             return $user;
         }
 
         // Create new user from Google
-        return self::create([
+        $user = self::create([
             'name' => $googleUser->getName(),
             'email' => $googleUser->getEmail(),
             'provider' => 'google',
@@ -112,5 +121,9 @@ class User extends Authenticatable
             'email_verified_at' => now(),
             'password' => null,
         ]);
+
+        $user->assignRole('user');
+
+        return $user;
     }
 }

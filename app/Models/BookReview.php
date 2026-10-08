@@ -15,6 +15,7 @@ class BookReview extends Model
         'rating',
         'review_text',
         'is_approved',
+        'moderation_status',
         'approved_by',
     ];
 

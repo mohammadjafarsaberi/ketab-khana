@@ -6,17 +6,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 const Create = () => {
-
-
     return (
         <div>
             <Head title="Categories" />
-            <Form
-                action={store()}
-                method="post"
-                resetOnSuccess
-
-            >
+            <Form action={store()} method="post" resetOnSuccess>
                 {({ errors, processing, reset }) => (
                     <>
                         <div>
@@ -48,6 +41,7 @@ const Create = () => {
                             <Checkbox
                                 id="is_active"
                                 name="is_active"
+                                value="1"
                                 defaultChecked={true}
                             />
                             <Label htmlFor="is_active">Active</Label>
@@ -73,13 +67,11 @@ const Create = () => {
                                 Reset
                             </Button>
                         </div>
-
                     </>
                 )}
             </Form>
         </div>
     );
 };
-
 
 export default Create;

@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useDataTableColumns } from '@/hooks/use-data-table-columns';
 import type { Author } from '@/pages/Admin/Author/Column';
 import { authorColumns } from '@/pages/Admin/Author/Column';
-import { index, create, edit,show } from '@/routes/authors';
+import { create, edit, index, show } from '@/routes/admin/authors';
 import type { PaginatedResponse } from '@/types/pagination';
 
 export default function Index({
@@ -14,21 +14,15 @@ export default function Index({
 }: {
     data: PaginatedResponse<Author>;
 }) {
-
-
-    const {columns, DeleteDialog} = useDataTableColumns(authorColumns, {
+    const { columns, DeleteDialog } = useDataTableColumns(authorColumns, {
         onView: (author) => router.visit(show(author.id)),
         onEdit: (author) => router.visit(edit(author.id)),
         onDelete: (author) => {
-                router.delete(destroy(author.id));
+            router.delete(destroy.url(author.id), {
+                preserveScroll: true,
+                onSuccess: () => router.reload({ only: ['data'] }),
+            });
         },
-        custom: [
-            {
-                label: 'View Books',
-                icon: '📚',
-                onClick: (item) => console.log(item),
-            },
-        ],
     });
 
     return (
@@ -48,8 +42,7 @@ export default function Index({
                 links={links}
             />
 
-            <DeleteDialog/>
-
+            <DeleteDialog />
         </div>
     );
 }

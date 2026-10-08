@@ -1,13 +1,12 @@
 import { Form, Head } from '@inertiajs/react';
 import { update } from '@/actions/App/Http/Controllers/AuthorController';
-import { FileInput } from '@/components/FIleInput';
+import { FileInput } from '@/components/file-input';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import type { Author } from '@/pages/Admin/Author/Column';
-const Edit = ({author}:{author:Author}) => {
-
+const Edit = ({ author }: { author: Author }) => {
     return (
         <div>
             <Head title="Authors" />
@@ -56,7 +55,7 @@ const Edit = ({author}:{author:Author}) => {
                                 id="image"
                                 name="image"
                                 accept="image/*"
-                                value={author.image}
+                                existingPreviewUrl={author.image}
                             />
                         </div>
 

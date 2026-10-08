@@ -10,17 +10,38 @@ class BookFilePolicy
 {
     use HandlesAuthorization;
 
-    public function viewAny(User $user) {}
+    public function viewAny(User $user): bool
+    {
+        return $user->isAdmin();
+    }
 
-    public function view(User $user, BookFile $bookFile) {}
+    public function view(User $user, BookFile $bookFile): bool
+    {
+        return $user->isAdmin();
+    }
 
-    public function create(User $user) {}
+    public function create(User $user): bool
+    {
+        return $user->isAdmin();
+    }
 
-    public function update(User $user, BookFile $bookFile) {}
+    public function update(User $user, BookFile $bookFile): bool
+    {
+        return $user->isAdmin();
+    }
 
-    public function delete(User $user, BookFile $bookFile) {}
+    public function delete(User $user, BookFile $bookFile): bool
+    {
+        return $user->isAdmin();
+    }
 
-    public function restore(User $user, BookFile $bookFile) {}
+    public function restore(User $user, BookFile $bookFile): bool
+    {
+        return $user->isAdmin();
+    }
 
-    public function forceDelete(User $user, BookFile $bookFile) {}
+    public function forceDelete(User $user, BookFile $bookFile): bool
+    {
+        return $user->isAdmin();
+    }
 }

@@ -71,7 +71,9 @@ export function ClientDataTable<TData, TValue>({
         columnId: string,
         filterValue: string,
     ) => {
-        if (!filterValue) {return true;}
+        if (!filterValue) {
+            return true;
+        }
 
         if (searchColumn) {
             // Search only specific column

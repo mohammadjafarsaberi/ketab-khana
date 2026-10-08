@@ -6,17 +6,17 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class AuthorRequest extends FormRequest
 {
-    public function rules()
+    public function rules(): array
     {
         return [
             'name' => 'required|string|max:255',
-            'bio' => 'nullable',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'bio' => ['nullable', 'string'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,webp', 'max:2048'],
         ];
     }
 
-    public function authorize()
+    public function authorize(): bool
     {
-        return true;
+        return $this->user()?->isAdmin() === true;
     }
 }

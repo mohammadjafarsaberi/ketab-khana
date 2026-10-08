@@ -17,7 +17,11 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
 
-        $categories = QueryBuilder::for(Category::class)->allowedSorts('id', 'is_active', 'created_at')->defaultSort('-created_at')->paginate(perPage: ($request->query('perPage', 10)), page: $request->query('page', 1))->appends($request->query());
+        $categories = QueryBuilder::for(Category::class)
+            ->allowedSorts('id', 'name', 'is_active', 'created_at')
+            ->defaultSort('-created_at')
+            ->paginate($request->integer('per_page', 10))
+            ->withQueryString();
 
         return Inertia::render('Admin/Category/Index', [
             'data' => CategoryResource::collection($categories),
@@ -38,11 +42,14 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request)
     {
 
-        Category::create($request->validated());
+        Category::create([
+            ...$request->validated(),
+            'is_active' => $request->boolean('is_active'),
+        ]);
 
         Inertia::flash('success', 'Category created successfully.');
 
-        return redirect()->route('categories.index');
+        return redirect()->route('admin.categories.index');
 
     }
 
@@ -70,11 +77,14 @@ class CategoryController extends Controller
      */
     public function update(CategoryRequest $request, Category $category)
     {
-        $category->update($request->validated());
+        $category->update([
+            ...$request->validated(),
+            'is_active' => $request->boolean('is_active'),
+        ]);
 
         Inertia::flash('success', 'Category updated successfully.');
 
-        return redirect()->route('categories.index');
+        return redirect()->route('admin.categories.index');
     }
 
     /**
@@ -82,8 +92,16 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        if ($category->books()->exists()) {
+            Inertia::flash('error', 'Cannot delete a category that still has books. Reassign or delete those books first.');
+
+            return redirect()->back();
+        }
+
         $category->delete();
 
         Inertia::flash('success', 'Category deleted successfully.');
+
+        return redirect()->back();
     }
 }

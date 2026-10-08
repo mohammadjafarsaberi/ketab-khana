@@ -15,11 +15,11 @@ class FileHandler
      * @param  string|null  $prefix  Optional prefix for filename
      * @return string // Full public URL
      */
-    public function upload(UploadedFile $file, string $folder = 'uploads', ?string $prefix = null): string
+    public function upload(UploadedFile $file, string $folder = 'uploads', ?string $prefix = null, string $disk = 'public'): string
     {
         $filename = $this->generateFilename($file, $prefix);
 
-        return $path = $file->storeAs($folder, $filename, 'public');
+        return $file->storeAs($folder, $filename, $disk);
     }
 
     /**
@@ -41,12 +41,12 @@ class FileHandler
     /**
      * Delete a file from public disk
      */
-    public function delete(string $path): bool
+    public function delete(string $path, string $disk = 'public'): bool
     {
         // Remove '/storage/' from beginning if present
         $path = str_replace('/storage/', '', $path);
 
-        return Storage::disk('public')->delete($path);
+        return Storage::disk($disk)->delete($path);
     }
 
     /**

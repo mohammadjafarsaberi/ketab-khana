@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 /** @mixin Author */
 class AuthorResource extends JsonResource
 {
-    public function toArray(Request $request)
+    public function toArray(Request $request): array
     {
         return [
             'id' => $this->id,

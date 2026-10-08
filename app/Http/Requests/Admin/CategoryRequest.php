@@ -6,18 +6,17 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class CategoryRequest extends FormRequest
 {
-    public function rules()
+    public function rules(): array
     {
         return [
-            'name' => 'required',
-            'description' => 'required',
-            'is_active' => 'required',
-
+            'name' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'is_active' => ['nullable', 'boolean'],
         ];
     }
 
-    public function authorize()
+    public function authorize(): bool
     {
-        return true;
+        return $this->user()?->isAdmin() === true;
     }
 }

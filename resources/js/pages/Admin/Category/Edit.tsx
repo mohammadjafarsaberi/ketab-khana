@@ -6,17 +6,12 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import type { Category } from '@/pages/Admin/Category/Column';
-const Edit = ({category}:{category:Category}) => {
-
+const Edit = ({ category }: { category: Category }) => {
     return (
         <div>
             <Head title="Categories" />
 
-            <Form
-                action={update(category.id)}
-                method="post"
-                resetOnSuccess
-            >
+            <Form action={update(category.id)} method="post" resetOnSuccess>
                 {({ errors, processing, defaults }) => (
                     <>
                         <div>
@@ -53,6 +48,7 @@ const Edit = ({category}:{category:Category}) => {
                             <Checkbox
                                 id="is_active"
                                 name="is_active"
+                                value="1"
                                 defaultChecked={category.is_active}
                             />
                             <Label htmlFor="is_active">Active</Label>

@@ -1,25 +1,16 @@
-import { Head } from "@inertiajs/react";
-import {
-    User,
-    BookOpen,
-    FileText,
-} from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { Head } from '@inertiajs/react';
+import { User, BookOpen, FileText } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 import {
     Card,
     CardContent,
     CardHeader,
     CardTitle,
     CardDescription,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import type { Author } from '@/pages/Admin/Author/Column';
 
-
-
-export default function Show({author,}: {
-    author: Author;
-}) {
-
+export default function Show({ author }: { author: Author }) {
     return (
         <>
             <Head title={author.name} />
@@ -62,10 +53,7 @@ export default function Show({author,}: {
                                         {author.books_count} Books
                                     </Badge>
 
-                                    <Badge
-                                        variant="outline"
-                                        className="gap-1"
-                                    >
+                                    <Badge variant="outline" className="gap-1">
                                         ID #{author.id}
                                     </Badge>
                                 </div>
@@ -77,9 +65,7 @@ export default function Show({author,}: {
                 <div className="mt-6 grid gap-6 lg:grid-cols-3">
                     <Card className="lg:col-span-2">
                         <CardHeader>
-                            <CardTitle>
-                                Biography
-                            </CardTitle>
+                            <CardTitle>Biography</CardTitle>
 
                             <CardDescription>
                                 Information about the author
@@ -92,7 +78,7 @@ export default function Show({author,}: {
                                     {author.bio}
                                 </p>
                             ) : (
-                                <p className="italic text-muted-foreground">
+                                <p className="text-muted-foreground italic">
                                     No biography available.
                                 </p>
                             )}
@@ -101,9 +87,7 @@ export default function Show({author,}: {
 
                     <Card>
                         <CardHeader>
-                            <CardTitle>
-                                Statistics
-                            </CardTitle>
+                            <CardTitle>Statistics</CardTitle>
                         </CardHeader>
 
                         <CardContent className="space-y-6">

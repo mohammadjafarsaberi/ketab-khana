@@ -10,8 +10,6 @@ import {
 } from '@/components/ui/card';
 import type { Category } from '@/pages/Admin/Category/Column';
 
-
-
 export default function Show({ category }: { category: Category }) {
     return (
         <>

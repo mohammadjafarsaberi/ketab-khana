@@ -10,17 +10,38 @@ class FavoritePolicy
 {
     use HandlesAuthorization;
 
-    public function viewAny(User $user) {}
+    public function viewAny(User $user): bool
+    {
+        return $user->isAdmin();
+    }
 
-    public function view(User $user, Favorite $favorite) {}
+    public function view(User $user, Favorite $favorite): bool
+    {
+        return $user->isAdmin();
+    }
 
-    public function create(User $user) {}
+    public function create(User $user): bool
+    {
+        return false;
+    }
 
-    public function update(User $user, Favorite $favorite) {}
+    public function update(User $user, Favorite $favorite): bool
+    {
+        return false;
+    }
 
-    public function delete(User $user, Favorite $favorite) {}
+    public function delete(User $user, Favorite $favorite): bool
+    {
+        return false;
+    }
 
-    public function restore(User $user, Favorite $favorite) {}
+    public function restore(User $user, Favorite $favorite): bool
+    {
+        return false;
+    }
 
-    public function forceDelete(User $user, Favorite $favorite) {}
+    public function forceDelete(User $user, Favorite $favorite): bool
+    {
+        return false;
+    }
 }

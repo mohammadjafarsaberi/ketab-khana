@@ -32,7 +32,8 @@ import { UserMenuContent } from '@/components/user-menu-content';
 import { useCurrentUrl } from '@/hooks/use-current-url';
 import { useInitials } from '@/hooks/use-initials';
 import { cn, toUrl } from '@/lib/utils';
-import { dashboard } from '@/routes';
+import { home } from '@/routes';
+import { dashboard } from '@/routes/admin';
 import type { BreadcrumbItem, NavItem } from '@/types';
 
 type Props = {
@@ -68,6 +69,8 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
     const { auth } = page.props;
     const getInitials = useInitials();
     const { isCurrentUrl, whenCurrentUrl } = useCurrentUrl();
+    const homeHref = auth.user?.is_admin ? dashboard() : home();
+    const visibleMainNavItems = auth.user?.is_admin ? mainNavItems : [];
 
     return (
         <>
@@ -98,7 +101,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                                 <div className="flex h-full flex-1 flex-col space-y-4 p-4">
                                     <div className="flex h-full flex-col justify-between text-sm">
                                         <div className="flex flex-col space-y-4">
-                                            {mainNavItems.map((item) => (
+                                            {visibleMainNavItems.map((item) => (
                                                 <Link
                                                     key={item.title}
                                                     href={item.href}
@@ -135,7 +138,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                     </div>
 
                     <Link
-                        href={dashboard()}
+                        href={homeHref}
                         prefetch
                         className="flex items-center space-x-2"
                     >
@@ -146,7 +149,7 @@ export function AppHeader({ breadcrumbs = [] }: Props) {
                     <div className="ml-6 hidden h-full items-center space-x-6 lg:flex">
                         <NavigationMenu className="flex h-full items-stretch">
                             <NavigationMenuList className="flex h-full items-stretch space-x-2">
-                                {mainNavItems.map((item, index) => (
+                                {visibleMainNavItems.map((item, index) => (
                                     <NavigationMenuItem
                                         key={index}
                                         className="relative flex h-full items-center"

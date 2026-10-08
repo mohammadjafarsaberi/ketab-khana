@@ -10,17 +10,38 @@ class AuthorPolicy
 {
     use HandlesAuthorization;
 
-    public function viewAny(User $user) {}
+    public function viewAny(User $user): bool
+    {
+        return $user->isAdmin();
+    }
 
-    public function view(User $user, Author $author) {}
+    public function view(User $user, Author $author): bool
+    {
+        return $user->isAdmin();
+    }
 
-    public function create(User $user) {}
+    public function create(User $user): bool
+    {
+        return $user->isAdmin();
+    }
 
-    public function update(User $user, Author $author) {}
+    public function update(User $user, Author $author): bool
+    {
+        return $user->isAdmin();
+    }
 
-    public function delete(User $user, Author $author) {}
+    public function delete(User $user, Author $author): bool
+    {
+        return $user->isAdmin();
+    }
 
-    public function restore(User $user, Author $author) {}
+    public function restore(User $user, Author $author): bool
+    {
+        return $user->isAdmin();
+    }
 
-    public function forceDelete(User $user, Author $author) {}
+    public function forceDelete(User $user, Author $author): bool
+    {
+        return $user->isAdmin();
+    }
 }

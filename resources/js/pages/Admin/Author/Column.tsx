@@ -1,15 +1,14 @@
-import type { ColumnDef } from "@tanstack/react-table"
+import type { ColumnDef } from '@tanstack/react-table';
 import { AvatarWithFallback } from '@/components/AvatarWithFallback';
 import { SortButton } from '@/components/SortButton';
 
-
 export type Author = {
-    id: number
-    name: string
-    bio: string | null
-    image: string | null
-    books_count?: number
-}
+    id: number;
+    name: string;
+    bio: string | null;
+    image: string | null;
+    books_count?: number;
+};
 
 export const authorColumns: ColumnDef<Author>[] = [
     {
@@ -25,6 +24,7 @@ export const authorColumns: ColumnDef<Author>[] = [
         header: 'Bio',
         cell: ({ row }) => {
             const bio = row.getValue('bio') as string;
+
             return <div className="max-w-xs truncate">{bio || '-'}</div>;
         },
     },
@@ -42,6 +42,7 @@ export const authorColumns: ColumnDef<Author>[] = [
         header: 'Image',
         cell: ({ row }) => {
             const author = row.original;
+
             return (
                 <AvatarWithFallback
                     image={author.image}

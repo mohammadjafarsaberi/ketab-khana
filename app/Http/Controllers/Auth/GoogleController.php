@@ -24,9 +24,13 @@ class GoogleController extends Controller
 
             $user = User::findOrCreateFromGoogle($googleUser);
 
+            if ($user->is_banned) {
+                return redirect()->route('login')->with('error', 'Your account has been suspended.');
+            }
+
             Auth::login($user, remember: true);
 
-            return redirect()->route('home')
+            return redirect()->route($user->isAdmin() ? 'admin.dashboard' : 'home')
                 ->with('success', 'Successfully logged in with Google! Welcome to Ketab-Khana.');
 
         } catch (\Exception $e) {

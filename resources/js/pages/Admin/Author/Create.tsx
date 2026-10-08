@@ -1,13 +1,11 @@
 import { Form, Head } from '@inertiajs/react';
 import { store } from '@/actions/App/Http/Controllers/AuthorController';
+import { FileInput } from '@/components/file-input';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { FileInput } from '@/components/FIleInput';
 const Create = () => {
-
-
     return (
         <div>
             <Head title="Authors" />
@@ -75,6 +73,5 @@ const Create = () => {
         </div>
     );
 };
-
 
 export default Create;

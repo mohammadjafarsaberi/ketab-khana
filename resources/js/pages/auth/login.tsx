@@ -1,4 +1,4 @@
-import { Form, Head, useForm } from '@inertiajs/react';
+import { Form, Head } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
@@ -7,7 +7,6 @@ import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import { register } from '@/routes';
 import { store } from '@/routes/login';
-
 
 type Props = {
     status?: string;
@@ -20,8 +19,6 @@ export default function Login({
     canRegister,
     canResetPassword = true,
 }: Props) {
-
-
     return (
         <>
             <Head title="Log in" />
@@ -30,7 +27,7 @@ export default function Login({
                 {/* Google Login Button */}
                 <Button
                     variant="outline"
-                    className="flex w-full items-center justify-center gap-3 py-6 text-base cursor-pointer"
+                    className="flex w-full cursor-pointer items-center justify-center gap-3 py-6 text-base"
                     onClick={() => (window.location.href = '/auth/google')}
                 >
                     <img
@@ -54,10 +51,7 @@ export default function Login({
 
                 {/* Email + Password Form */}
                 <Form action={store()} className="space-y-4">
-                    {({
-                        errors,
-                        processing,
-                    }) => (
+                    {({ errors, processing }) => (
                         <>
                             <div className="grid gap-2">
                                 <Label htmlFor="email">Email address</Label>
@@ -88,7 +82,6 @@ export default function Login({
                                     id="password"
                                     type="password"
                                     name="password"
-
                                     placeholder="Enter your password"
                                     required
                                 />

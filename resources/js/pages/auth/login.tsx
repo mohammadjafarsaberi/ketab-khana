@@ -1,4 +1,4 @@
-import { Form, Head } from '@inertiajs/react';
+import { Form, Head, usePage } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
@@ -19,6 +19,11 @@ export default function Login({
     canRegister,
     canResetPassword = true,
 }: Props) {
+    const redirect = new URL(
+        usePage().url,
+        'http://localhost',
+    ).searchParams.get('redirect');
+
     return (
         <>
             <Head title="Log in" />
@@ -53,6 +58,13 @@ export default function Login({
                 <Form action={store()} className="space-y-4">
                     {({ errors, processing }) => (
                         <>
+                            {redirect && (
+                                <input
+                                    type="hidden"
+                                    name="redirect"
+                                    value={redirect}
+                                />
+                            )}
                             <div className="grid gap-2">
                                 <Label htmlFor="email">Email address</Label>
                                 <Input

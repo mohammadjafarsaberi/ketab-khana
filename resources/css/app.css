@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Raleway:wght@400;500;600;700&display=swap');
 @import 'tailwindcss';
 
 @import 'tw-animate-css';
@@ -8,40 +9,40 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-    --background: oklch(0.9911 0 0);
-    --foreground: oklch(0.2046 0 0);
-    --card: oklch(0.9911 0 0);
-    --card-foreground: oklch(0.2046 0 0);
-    --popover: oklch(0.9911 0 0);
-    --popover-foreground: oklch(0.4386 0 0);
-    --primary: oklch(0.8348 0.1302 160.9080);
-    --primary-foreground: oklch(0.2626 0.0147 166.4589);
-    --secondary: oklch(0.9940 0 0);
-    --secondary-foreground: oklch(0.2046 0 0);
-    --muted: oklch(0.9461 0 0);
-    --muted-foreground: oklch(0.2435 0 0);
-    --accent: oklch(0.9461 0 0);
-    --accent-foreground: oklch(0.2435 0 0);
+    --background: #f5e9d8;
+    --foreground: #402a25;
+    --card: #fffaf5;
+    --card-foreground: #402a25;
+    --popover: #fffaf5;
+    --popover-foreground: #5f443b;
+    --primary: #b84e4e;
+    --primary-foreground: #fffaf5;
+    --secondary: #ead7c3;
+    --secondary-foreground: #59352f;
+    --muted: #eadfcd;
+    --muted-foreground: #765f55;
+    --accent: #f2d4d0;
+    --accent-foreground: #6f2929;
     --destructive: oklch(0.5523 0.1927 32.7272);
     --destructive-foreground: oklch(0.9934 0.0032 17.2118);
-    --border: oklch(0.9037 0 0);
-    --input: oklch(0.9731 0 0);
-    --ring: oklch(0.8348 0.1302 160.9080);
-    --chart-1: oklch(0.8348 0.1302 160.9080);
-    --chart-2: oklch(0.6231 0.1880 259.8145);
+    --border: #dfcdbb;
+    --input: #fffaf5;
+    --ring: #b84e4e;
+    --chart-1: #b84e4e;
+    --chart-2: oklch(0.6231 0.188 259.8145);
     --chart-3: oklch(0.6056 0.2189 292.7172);
     --chart-4: oklch(0.7686 0.1647 70.0804);
     --chart-5: oklch(0.6959 0.1491 162.4796);
-    --sidebar: oklch(0.9911 0 0);
-    --sidebar-foreground: oklch(0.5452 0 0);
-    --sidebar-primary: oklch(0.8348 0.1302 160.9080);
-    --sidebar-primary-foreground: oklch(0.2626 0.0147 166.4589);
-    --sidebar-accent: oklch(0.9461 0 0);
-    --sidebar-accent-foreground: oklch(0.2435 0 0);
-    --sidebar-border: oklch(0.9037 0 0);
-    --sidebar-ring: oklch(0.8348 0.1302 160.9080);
+    --sidebar: #f1e1cf;
+    --sidebar-foreground: #654b42;
+    --sidebar-primary: #b84e4e;
+    --sidebar-primary-foreground: #fffaf5;
+    --sidebar-accent: #f2d4d0;
+    --sidebar-accent-foreground: #6f2929;
+    --sidebar-border: #dbc4ae;
+    --sidebar-ring: #b84e4e;
     --font-sans: Outfit, sans-serif;
-    --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+    --font-serif: ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
     --font-mono: monospace;
     --radius: 0.5rem;
     --shadow-x: 0px;
@@ -52,11 +53,21 @@
     --shadow-color: #000000;
     --shadow-2xs: 0px 1px 3px 0px hsl(0 0% 0% / 0.09);
     --shadow-xs: 0px 1px 3px 0px hsl(0 0% 0% / 0.09);
-    --shadow-sm: 0px 1px 3px 0px hsl(0 0% 0% / 0.17), 0px 1px 2px -1px hsl(0 0% 0% / 0.17);
-    --shadow: 0px 1px 3px 0px hsl(0 0% 0% / 0.17), 0px 1px 2px -1px hsl(0 0% 0% / 0.17);
-    --shadow-md: 0px 1px 3px 0px hsl(0 0% 0% / 0.17), 0px 2px 4px -1px hsl(0 0% 0% / 0.17);
-    --shadow-lg: 0px 1px 3px 0px hsl(0 0% 0% / 0.17), 0px 4px 6px -1px hsl(0 0% 0% / 0.17);
-    --shadow-xl: 0px 1px 3px 0px hsl(0 0% 0% / 0.17), 0px 8px 10px -1px hsl(0 0% 0% / 0.17);
+    --shadow-sm:
+        0px 1px 3px 0px hsl(0 0% 0% / 0.17),
+        0px 1px 2px -1px hsl(0 0% 0% / 0.17);
+    --shadow:
+        0px 1px 3px 0px hsl(0 0% 0% / 0.17),
+        0px 1px 2px -1px hsl(0 0% 0% / 0.17);
+    --shadow-md:
+        0px 1px 3px 0px hsl(0 0% 0% / 0.17),
+        0px 2px 4px -1px hsl(0 0% 0% / 0.17);
+    --shadow-lg:
+        0px 1px 3px 0px hsl(0 0% 0% / 0.17),
+        0px 4px 6px -1px hsl(0 0% 0% / 0.17);
+    --shadow-xl:
+        0px 1px 3px 0px hsl(0 0% 0% / 0.17),
+        0px 8px 10px -1px hsl(0 0% 0% / 0.17);
     --shadow-2xl: 0px 1px 3px 0px hsl(0 0% 0% / 0.43);
     --tracking-normal: 0.025em;
     --spacing: 0.25rem;
@@ -81,12 +92,12 @@
     --destructive-foreground: oklch(0.9368 0.0045 34.3092);
     --border: oklch(0.2809 0 0);
     --input: oklch(0.2603 0 0);
-    --ring: oklch(0.8003 0.1821 151.7110);
-    --chart-1: oklch(0.8003 0.1821 151.7110);
-    --chart-2: oklch(0.7137 0.1434 254.6240);
-    --chart-3: oklch(0.7090 0.1592 293.5412);
+    --ring: oklch(0.8003 0.1821 151.711);
+    --chart-1: oklch(0.8003 0.1821 151.711);
+    --chart-2: oklch(0.7137 0.1434 254.624);
+    --chart-3: oklch(0.709 0.1592 293.5412);
     --chart-4: oklch(0.8369 0.1644 84.4286);
-    --chart-5: oklch(0.7845 0.1325 181.9120);
+    --chart-5: oklch(0.7845 0.1325 181.912);
     --sidebar: oklch(0.1822 0 0);
     --sidebar-foreground: oklch(0.6301 0 0);
     --sidebar-primary: oklch(0.4365 0.1044 156.7556);
@@ -94,9 +105,9 @@
     --sidebar-accent: oklch(0.3132 0 0);
     --sidebar-accent-foreground: oklch(0.9851 0 0);
     --sidebar-border: oklch(0.2809 0 0);
-    --sidebar-ring: oklch(0.8003 0.1821 151.7110);
+    --sidebar-ring: oklch(0.8003 0.1821 151.711);
     --font-sans: Outfit, sans-serif;
-    --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+    --font-serif: ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
     --font-mono: monospace;
     --radius: 0.5rem;
     --shadow-x: 0px;
@@ -107,11 +118,21 @@
     --shadow-color: #000000;
     --shadow-2xs: 0px 1px 3px 0px hsl(0 0% 0% / 0.09);
     --shadow-xs: 0px 1px 3px 0px hsl(0 0% 0% / 0.09);
-    --shadow-sm: 0px 1px 3px 0px hsl(0 0% 0% / 0.17), 0px 1px 2px -1px hsl(0 0% 0% / 0.17);
-    --shadow: 0px 1px 3px 0px hsl(0 0% 0% / 0.17), 0px 1px 2px -1px hsl(0 0% 0% / 0.17);
-    --shadow-md: 0px 1px 3px 0px hsl(0 0% 0% / 0.17), 0px 2px 4px -1px hsl(0 0% 0% / 0.17);
-    --shadow-lg: 0px 1px 3px 0px hsl(0 0% 0% / 0.17), 0px 4px 6px -1px hsl(0 0% 0% / 0.17);
-    --shadow-xl: 0px 1px 3px 0px hsl(0 0% 0% / 0.17), 0px 8px 10px -1px hsl(0 0% 0% / 0.17);
+    --shadow-sm:
+        0px 1px 3px 0px hsl(0 0% 0% / 0.17),
+        0px 1px 2px -1px hsl(0 0% 0% / 0.17);
+    --shadow:
+        0px 1px 3px 0px hsl(0 0% 0% / 0.17),
+        0px 1px 2px -1px hsl(0 0% 0% / 0.17);
+    --shadow-md:
+        0px 1px 3px 0px hsl(0 0% 0% / 0.17),
+        0px 2px 4px -1px hsl(0 0% 0% / 0.17);
+    --shadow-lg:
+        0px 1px 3px 0px hsl(0 0% 0% / 0.17),
+        0px 4px 6px -1px hsl(0 0% 0% / 0.17);
+    --shadow-xl:
+        0px 1px 3px 0px hsl(0 0% 0% / 0.17),
+        0px 8px 10px -1px hsl(0 0% 0% / 0.17);
     --shadow-2xl: 0px 1px 3px 0px hsl(0 0% 0% / 0.43);
 }
 
@@ -183,4 +204,69 @@
         @apply bg-background text-foreground;
         letter-spacing: var(--tracking-normal);
     }
+}
+
+html.public-scrollbar {
+    scrollbar-color: #b84e4e #eadbc9;
+    scrollbar-width: thin;
+}
+
+html.public-scrollbar::-webkit-scrollbar {
+    width: 11px;
+}
+
+html.public-scrollbar::-webkit-scrollbar-track {
+    background: #eadbc9;
+}
+
+html.public-scrollbar::-webkit-scrollbar-thumb {
+    min-height: 48px;
+    border: 3px solid #eadbc9;
+    border-radius: 999px;
+    background: #b84e4e;
+}
+
+html.public-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #963d3d;
+}
+
+.public-site {
+    font-family: 'Raleway', ui-sans-serif, system-ui, sans-serif;
+}
+
+.public-site h1,
+.public-site h2,
+.public-site .public-headline {
+    font-family: 'Playfair Display', ui-serif, Georgia, serif;
+}
+
+.public-site button,
+.public-site input,
+.public-site select,
+.public-site textarea {
+    font: inherit;
+}
+
+.public-site input:not([type='checkbox']):not([type='radio']),
+.public-site select,
+.public-site textarea {
+    transition:
+        border-color 160ms ease,
+        background-color 160ms ease,
+        box-shadow 160ms ease;
+}
+
+.public-site input:not([type='checkbox']):not([type='radio']):hover,
+.public-site select:hover,
+.public-site textarea:hover {
+    border-color: #cf8989;
+    background-color: #fffaf5;
+}
+
+.public-site input:not([type='checkbox']):not([type='radio']):focus-visible,
+.public-site select:focus-visible,
+.public-site textarea:focus-visible {
+    border-color: #b84e4e;
+    box-shadow: 0 0 0 3px rgb(184 78 78 / 16%);
+    outline: none;
 }

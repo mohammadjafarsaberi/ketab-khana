@@ -9,13 +9,30 @@ use App\Http\Controllers\BookFileController;
 use App\Http\Controllers\BookReviewController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\Public\BookController as PublicBookController;
+use App\Http\Controllers\Public\CatalogController;
+use App\Http\Controllers\Public\DiscoveryController;
+use App\Http\Controllers\Public\DownloadController as PublicDownloadController;
+use App\Http\Controllers\Public\FavoriteController as PublicFavoriteController;
+use App\Http\Controllers\Public\HomeController;
+use App\Http\Controllers\Public\LibraryController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use Laravel\Fortify\Features;
 
-Route::inertia('/', 'welcome', [
-    'canRegister' => Features::enabled(Features::registration()),
-])->name('home');
+Route::get('/', HomeController::class)->name('home');
+Route::get('/books', [CatalogController::class, 'index'])->name('books.index');
+Route::get('/search/books', [CatalogController::class, 'search'])->middleware('throttle:60,1')->name('books.search');
+Route::get('/books/{book:slug}', [PublicBookController::class, 'show'])->name('books.show');
+Route::get('/categories/{category:slug}', [DiscoveryController::class, 'category'])->name('categories.show');
+Route::get('/authors/{author}', [DiscoveryController::class, 'author'])->name('authors.show');
+
+Route::middleware(['auth', 'verified', 'not-banned'])->group(function () {
+    Route::get('/my-library', LibraryController::class)->name('library.index');
+    Route::post('/books/{book:slug}/favorite', PublicFavoriteController::class)->name('books.favorite');
+    Route::get('/books/{book:slug}/download/{bookFile}', PublicDownloadController::class)
+        ->middleware('throttle:20,1')
+        ->name('books.download');
+});
 
 Route::middleware(['auth', 'verified', 'not-banned', 'role:admin'])
     ->prefix('admin')

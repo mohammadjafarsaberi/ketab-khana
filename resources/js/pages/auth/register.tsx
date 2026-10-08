@@ -15,7 +15,7 @@ export default function Register() {
             <Head title="Register" />
             <Button
                 variant="outline"
-                className="flex w-full items-center justify-center gap-3 py-6 text-base cursor-pointer"
+                className="flex w-full cursor-pointer items-center justify-center gap-3 py-6 text-base"
                 onClick={() => (window.location.href = '/auth/google')}
             >
                 <img

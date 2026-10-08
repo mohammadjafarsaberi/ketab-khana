@@ -1,14 +1,17 @@
-import AppLogoIcon from '@/components/app-logo-icon';
-
 export default function AppLogo() {
     return (
         <>
-            <div className="flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
-                <AppLogoIcon className="size-5 fill-current text-white dark:text-black" />
-            </div>
+            <img
+                src="/images/logo-k.png"
+                alt=""
+                className="size-10 shrink-0 object-contain"
+            />
             <div className="ml-1 grid flex-1 text-left text-sm">
-                <span className="mb-0.5 truncate leading-tight font-semibold">
-                    Laravel Starter Kit
+                <span className="public-headline truncate leading-tight font-bold text-[#6f2929] dark:text-sidebar-foreground">
+                    Ketab Khana
+                </span>
+                <span className="truncate text-[11px] font-medium tracking-wide text-muted-foreground uppercase">
+                    Admin panel
                 </span>
             </div>
         </>

@@ -1,4 +1,4 @@
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import type { PropsWithChildren } from 'react';
 import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
@@ -30,12 +30,26 @@ const sidebarNavItems: NavItem[] = [
 
 export default function SettingsLayout({ children }: PropsWithChildren) {
     const { isCurrentOrParentUrl } = useCurrentUrl();
+    const { auth } = usePage().props;
+    const visibleNavItems = auth.user?.is_admin
+        ? sidebarNavItems
+        : sidebarNavItems.filter((item) => item.title !== 'Appearance');
 
     return (
-        <div className="px-4 py-6">
+        <div
+            className={cn(
+                'px-4 py-6',
+                !auth.user?.is_admin &&
+                    'mx-auto w-full max-w-5xl py-10 sm:px-6 lg:px-8',
+            )}
+        >
             <Heading
                 title="Settings"
-                description="Manage your profile and account settings"
+                description={
+                    auth.user?.is_admin
+                        ? 'Manage your profile and account settings'
+                        : 'Manage your profile and account security'
+                }
             />
 
             <div className="flex flex-col lg:flex-row lg:space-x-12">
@@ -44,7 +58,7 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
                         className="flex flex-col space-y-1 space-x-0"
                         aria-label="Settings"
                     >
-                        {sidebarNavItems.map((item, index) => (
+                        {visibleNavItems.map((item, index) => (
                             <Button
                                 key={`${toUrl(item.href)}-${index}`}
                                 size="sm"

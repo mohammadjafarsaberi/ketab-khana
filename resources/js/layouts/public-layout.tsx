@@ -1,5 +1,7 @@
 import { Link, router, usePage } from '@inertiajs/react';
 import {
+    ArrowRight,
+    ArrowUp,
     ChevronDown,
     Library,
     LogOut,
@@ -32,6 +34,7 @@ export default function PublicLayout({
 }) {
     const { auth } = usePage().props;
     const [mobileOpen, setMobileOpen] = useState(false);
+    const settingsHref = profile.edit();
 
     useEffect(() => {
         document.documentElement.classList.remove('dark');
@@ -154,7 +157,7 @@ export default function PublicLayout({
                                         </DropdownMenuItem>
                                         <DropdownMenuItem asChild>
                                             <Link
-                                                href={profile.edit()}
+                                                href={settingsHref}
                                                 className="cursor-pointer gap-2 rounded-lg focus:bg-[#f2d4d0]"
                                             >
                                                 <Settings className="size-4 text-[#B84E4E]" />
@@ -239,7 +242,7 @@ export default function PublicLayout({
                                         My Library
                                     </Link>
                                     <Link
-                                        href={profile.edit()}
+                                        href={settingsHref}
                                         className="rounded-xl px-3 py-2.5 font-medium"
                                     >
                                         Settings
@@ -282,17 +285,129 @@ export default function PublicLayout({
                 )}
             </header>
             <main>{children}</main>
-            <footer className="mt-24 border-t border-[#dfcdbb] bg-[#eedfcd]">
-                <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-10 text-sm text-slate-500 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
-                    <Link href={home()}>
-                        <img
-                            src="/images/logo-k.png"
-                            alt="Ketab Khana"
-                            className="h-10 w-auto object-contain"
-                        />
-                    </Link>
-                    <span>Read freely. Discover thoughtfully.</span>
-                    <span>© {new Date().getFullYear()}</span>
+            <footer className="relative mt-24 overflow-hidden border-t border-[#d9c2ad] bg-[#eedfcd]">
+                <div className="relative z-10 mx-auto w-full max-w-7xl px-4 pt-14 pb-7 sm:px-6 lg:px-8 lg:pt-18">
+                    <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-[1.35fr_0.7fr_0.8fr_1.25fr] lg:gap-10">
+                        <div className="max-w-sm">
+                            <Link href={home()} className="inline-flex">
+                                <img
+                                    src="/images/logo-k.png"
+                                    alt="Ketab Khana"
+                                    className="h-14 w-auto object-contain"
+                                />
+                            </Link>
+                            <p className="mt-5 max-w-xs text-sm leading-7 text-[#725f53]">
+                                A quiet place to discover, save, and read books
+                                that stay with you.
+                            </p>
+                        </div>
+
+                        <div>
+                            <h2 className="font-serif text-lg font-semibold text-[#38241d]">
+                                Explore
+                            </h2>
+                            <nav className="mt-5 flex flex-col items-start gap-3 text-sm text-[#725f53]">
+                                {nav.slice(1).map((item) => (
+                                    <Link
+                                        key={item.label}
+                                        href={item.href}
+                                        className="transition-colors hover:text-[#B84E4E]"
+                                    >
+                                        {item.label}
+                                    </Link>
+                                ))}
+                            </nav>
+                        </div>
+
+                        <div>
+                            <h2 className="font-serif text-lg font-semibold text-[#38241d]">
+                                Your account
+                            </h2>
+                            <nav className="mt-5 flex flex-col items-start gap-3 text-sm text-[#725f53]">
+                                {auth.user ? (
+                                    <>
+                                        <Link
+                                            href={library.index()}
+                                            className="transition-colors hover:text-[#B84E4E]"
+                                        >
+                                            My Library
+                                        </Link>
+                                        <Link
+                                            href={settingsHref}
+                                            className="transition-colors hover:text-[#B84E4E]"
+                                        >
+                                            Settings
+                                        </Link>
+                                        {auth.user.is_admin && (
+                                            <Link
+                                                href={admin.dashboard()}
+                                                className="transition-colors hover:text-[#B84E4E]"
+                                            >
+                                                Admin panel
+                                            </Link>
+                                        )}
+                                    </>
+                                ) : (
+                                    <>
+                                        <Link
+                                            href={login()}
+                                            className="transition-colors hover:text-[#B84E4E]"
+                                        >
+                                            Sign in
+                                        </Link>
+                                        <Link
+                                            href={register()}
+                                            className="transition-colors hover:text-[#B84E4E]"
+                                        >
+                                            Create account
+                                        </Link>
+                                    </>
+                                )}
+                            </nav>
+                        </div>
+
+                        <div className="max-w-sm">
+                            <p className="text-xs font-semibold tracking-[0.18em] text-[#9b514d] uppercase">
+                                Your next chapter
+                            </p>
+                            <h2 className="mt-3 font-serif text-2xl leading-tight font-semibold text-[#38241d]">
+                                Find a book worth getting lost in.
+                            </h2>
+                            <Link
+                                href={books.index()}
+                                className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#B84E4E] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#963d3d]"
+                            >
+                                Browse the catalog
+                                <ArrowRight className="size-4" />
+                            </Link>
+                        </div>
+                    </div>
+
+                    <div className="mt-14 flex flex-col gap-4 border-t border-[#d9c2ad] pt-6 text-xs text-[#806c60] sm:flex-row sm:items-center sm:justify-between">
+                        <span>
+                            © {new Date().getFullYear()} Ketab Khana. Read
+                            freely. Discover thoughtfully.
+                        </span>
+                        <button
+                            type="button"
+                            onClick={() =>
+                                window.scrollTo({ top: 0, behavior: 'smooth' })
+                            }
+                            className="inline-flex w-fit items-center gap-2 font-semibold text-[#6f413b] transition hover:text-[#B84E4E]"
+                        >
+                            Back to top
+                            <ArrowUp className="size-3.5" />
+                        </button>
+                    </div>
+                </div>
+
+                <div
+                    className="pointer-events-none absolute right-10 bottom-0 hidden h-20 items-end gap-1.5 opacity-35 xl:flex"
+                    aria-hidden="true"
+                >
+                    <span className="h-14 w-5 rounded-t-sm bg-[#B84E4E]" />
+                    <span className="h-20 w-7 rounded-t-sm border-x-2 border-[#986f58] bg-[#d8b58d]" />
+                    <span className="h-16 w-5 rounded-t-sm bg-[#8f5550]" />
                 </div>
             </footer>
         </div>

@@ -1,6 +1,5 @@
 import { Link } from '@inertiajs/react';
 import { useEffect } from 'react';
-import AppLogoIcon from '@/components/app-logo-icon';
 import { initializeTheme } from '@/hooks/use-appearance';
 import { home } from '@/routes';
 import type { AuthLayoutProps } from '@/types';
@@ -30,9 +29,11 @@ export default function AuthSimpleLayout({
                             href={home()}
                             className="flex flex-col items-center gap-2 font-medium"
                         >
-                            <div className="mb-1 flex h-9 w-9 items-center justify-center rounded-md">
-                                <AppLogoIcon className="size-9 fill-current text-[#B84E4E]" />
-                            </div>
+                            <img
+                                src="/images/logo-k.png"
+                                alt="Ketab Khana"
+                                className="mb-1 h-14 w-auto object-contain"
+                            />
                             <span className="sr-only">{title}</span>
                         </Link>
 

@@ -97,12 +97,11 @@ export default function Home({
                             <Sparkles className="size-3.5" />
                             Your digital reading room
                         </div>
-                        <div className="flex flex-wrap items-baseline uppercase justify-center ">
-
-                        <h1 className="max-w-3xl text-4xl font-[100px] leading-[1.05] tracking-[-0.04em] text-[#592323] sm:text-6xl lg:text-7xl">
-                            Discover your next{' '}
-                        </h1>
-                            <h1 className="font-bold max-w-3xl text-4xl leading-[1.05] tracking-[-0.04em] text-[#592323] sm:text-6xl lg:text-7xl  text-[#B84E4E]">
+                        <div className="flex flex-wrap items-baseline justify-center uppercase">
+                            <h1 className="max-w-3xl text-4xl leading-[1.05] font-[100px] tracking-[-0.04em] text-[#592323] sm:text-6xl lg:text-7xl">
+                                Discover your next{' '}
+                            </h1>
+                            <h1 className="max-w-3xl text-4xl leading-[1.05] font-bold tracking-[-0.04em] text-[#592323] text-[#B84E4E] sm:text-6xl lg:text-7xl">
                                 great read.
                             </h1>
                         </div>
@@ -133,7 +132,7 @@ export default function Home({
                         <img
                             src="/images/hero-book-fan.png?v=3"
                             alt="A collection of classic books arranged in a semicircle"
-                            className="absolute -top-2 left-1/2 w-[125vw] min-w-[900px] max-w-none -translate-x-1/2 drop-shadow-[0_20px_20px_rgba(89,35,35,0.14)] sm:-top-6 lg:-top-7"
+                            className="absolute -top-2 left-1/2 w-[125vw] max-w-none min-w-[900px] -translate-x-1/2 drop-shadow-[0_20px_20px_rgba(89,35,35,0.14)] sm:-top-6 lg:-top-7"
                         />
                     </div>
                 </div>

@@ -23,7 +23,9 @@ import {
 import { initializeTheme } from '@/hooks/use-appearance';
 import { home, login, logout, register } from '@/routes';
 import admin from '@/routes/admin';
+import authors from '@/routes/authors';
 import books from '@/routes/books';
+import categories from '@/routes/categories';
 import library from '@/routes/library';
 import profile from '@/routes/profile';
 
@@ -50,14 +52,8 @@ export default function PublicLayout({
     const nav = [
         { label: 'Home', href: home() },
         { label: 'Catalog', href: books.index() },
-        {
-            label: 'Categories',
-            href: books.index({ query: { focus: 'categories' } }),
-        },
-        {
-            label: 'Authors',
-            href: books.index({ query: { focus: 'authors' } }),
-        },
+        { label: 'Categories', href: categories.index() },
+        { label: 'Authors', href: authors.index() },
     ];
 
     return (

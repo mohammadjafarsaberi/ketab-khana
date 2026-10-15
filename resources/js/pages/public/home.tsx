@@ -12,6 +12,7 @@ import { BookCard } from '@/components/public/book-card';
 import { BookGrid } from '@/components/public/book-grid';
 import authorsRoutes from '@/routes/authors';
 import booksRoutes from '@/routes/books';
+import categoriesRoutes from '@/routes/categories';
 import type { PublicBook } from '@/types';
 
 type HomeProps = {
@@ -145,7 +146,13 @@ export default function Home({
                     href={booksRoutes.index()}
                 >
                     <div className="mb-8">
-                        <div className="flex justify-end">
+                        <div className="flex items-center justify-end gap-4">
+                            <Link
+                                href={categoriesRoutes.index()}
+                                className="text-sm font-semibold text-[#B84E4E] transition hover:text-[#963d3d]"
+                            >
+                                Browse all categories
+                            </Link>
                             {selectedCategoryIds.length > 0 && (
                                 <button
                                     type="button"
@@ -274,10 +281,19 @@ export default function Home({
 
                 {authors.length > 0 && (
                     <section className="py-12">
-                        <SectionHeading
-                            title="Featured authors"
-                            subtitle="Meet the voices behind the books"
-                        />
+                        <div className="flex items-end justify-between gap-4">
+                            <SectionHeading
+                                title="Featured authors"
+                                subtitle="Meet the voices behind the books"
+                            />
+                            <Link
+                                href={authorsRoutes.index()}
+                                className="hidden items-center gap-2 text-sm font-semibold text-[#B84E4E] sm:flex"
+                            >
+                                Meet all authors
+                                <ArrowRight className="size-4" />
+                            </Link>
+                        </div>
                         <div className="mt-7 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
                             {authors.map((author) => (
                                 <Link

@@ -23,7 +23,9 @@ Route::get('/', HomeController::class)->name('home');
 Route::get('/books', [CatalogController::class, 'index'])->name('books.index');
 Route::get('/search/books', [CatalogController::class, 'search'])->middleware('throttle:60,1')->name('books.search');
 Route::get('/books/{book:slug}', [PublicBookController::class, 'show'])->name('books.show');
+Route::get('/categories', [DiscoveryController::class, 'categories'])->name('categories.index');
 Route::get('/categories/{category:slug}', [DiscoveryController::class, 'category'])->name('categories.show');
+Route::get('/authors', [DiscoveryController::class, 'authors'])->name('authors.index');
 Route::get('/authors/{author}', [DiscoveryController::class, 'author'])->name('authors.show');
 
 Route::middleware(['auth', 'verified', 'not-banned'])->group(function () {

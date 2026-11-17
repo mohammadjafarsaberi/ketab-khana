@@ -23,7 +23,7 @@ Ketab Khana is a modern digital library built with Laravel and Inertia React. It
 - [Laravel Scout](https://laravel.com/docs/scout) and [Typesense](https://typesense.org/docs/guide/install-typesense.html)
 - [Laravel Fortify](https://laravel.com/docs/fortify) and [Laravel Socialite](https://laravel.com/docs/socialite)
 - [Spatie Laravel Permission](https://spatie.be/docs/laravel-permission)
-- SQLite by default; other Laravel-supported databases may also be configured
+- PostgreSQL 17 by default
 
 ## Requirements
 
@@ -32,7 +32,7 @@ Install the following before setting up the project:
 - [PHP and required Laravel tooling](https://laravel.com/framework/docs)
 - [Composer 2](https://getcomposer.org/download/)
 - [Node.js LTS and npm](https://nodejs.org/en/download)
-- SQLite, MySQL, PostgreSQL, or another Laravel-supported database
+- PostgreSQL
 - Typesense is optional for local development because database search is used as a fallback
 
 Confirm the tools are available:
@@ -45,6 +45,24 @@ npm --version
 ```
 
 ## Installation
+
+### Docker (recommended)
+
+Build the application, start PostgreSQL, Typesense, the web server, and the queue worker, then run the migrations:
+
+```bash
+docker compose up --build -d
+```
+
+Open `http://localhost:8000`. The Compose defaults are intended for local development; set `APP_KEY`, `POSTGRES_PASSWORD`, and `TYPESENSE_API_KEY` to secure values in deployed environments.
+
+To seed a fresh local database:
+
+```bash
+docker compose exec app php artisan db:seed
+```
+
+The following steps describe a non-Docker installation.
 
 ### 1. Clone the repository
 
@@ -91,21 +109,7 @@ APP_URL=http://localhost:8000
 
 ### 4. Configure the database
 
-The example environment uses SQLite. Create the database file if it does not already exist.
-
-macOS or Linux:
-
-```bash
-touch database/database.sqlite
-```
-
-Windows PowerShell:
-
-```powershell
-New-Item database/database.sqlite -ItemType File -Force
-```
-
-Then run the migrations and development seeders:
+The example environment uses PostgreSQL. Create the `ketab_khana` database and user from `.env`, then run the migrations and development seeders:
 
 ```bash
 php artisan migrate --seed

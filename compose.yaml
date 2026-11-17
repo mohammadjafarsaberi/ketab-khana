@@ -1,0 +1,88 @@
+name: ketab-khana
+
+x-app: &app
+  build:
+    context: .
+  image: ketab-khana-app
+  restart: unless-stopped
+  environment: &app-environment
+    APP_NAME: Ketab Khana
+    APP_ENV: local
+    APP_KEY: ${APP_KEY:-base64:MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=}
+    APP_DEBUG: ${APP_DEBUG:-true}
+    APP_URL: ${APP_URL:-http://localhost:8000}
+    DB_CONNECTION: pgsql
+    DB_HOST: postgres
+    DB_PORT: 5432
+    DB_DATABASE: ${POSTGRES_DB:-ketab_khana}
+    DB_USERNAME: ${POSTGRES_USER:-ketab_khana}
+    DB_PASSWORD: ${POSTGRES_PASSWORD:-secret}
+    SCOUT_DRIVER: typesense
+    TYPESENSE_API_KEY: ${TYPESENSE_API_KEY:-xyz}
+    TYPESENSE_HOST: typesense
+    TYPESENSE_PORT: 8108
+    TYPESENSE_PROTOCOL: http
+  depends_on:
+    migrate:
+      condition: service_completed_successfully
+    typesense:
+      condition: service_started
+  volumes:
+    - app-storage:/var/www/html/storage
+
+services:
+  app:
+    <<: *app
+    ports:
+      - "${APP_PORT:-8000}:8000"
+    healthcheck:
+      test: ["CMD", "php", "artisan", "about"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  queue:
+    <<: *app
+    command: ["php", "artisan", "queue:work", "--tries=3", "--timeout=90"]
+
+  migrate:
+    build:
+      context: .
+    image: ketab-khana-app
+    restart: "no"
+    environment: *app-environment
+    command: ["php", "artisan", "migrate", "--force"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-ketab_khana}
+      POSTGRES_USER: ${POSTGRES_USER:-ketab_khana}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-secret}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  typesense:
+    image: typesense/typesense:30.2
+    restart: unless-stopped
+    command: "--data-dir /data --api-key=${TYPESENSE_API_KEY:-xyz} --enable-cors"
+    ports:
+      - "${TYPESENSE_PORT:-8108}:8108"
+    volumes:
+      - typesense-data:/data
+
+volumes:
+  app-storage:
+  postgres-data:
+  typesense-data:

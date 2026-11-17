@@ -1,7 +1,9 @@
 import { Head, Link, router } from '@inertiajs/react';
+import { useState } from 'react';
 import { destroy } from '@/actions/App/Http/Controllers/BookController';
 import { DataTable } from '@/components/data-table';
 import Heading from '@/components/heading';
+import Search from '@/components/Search';
 import { Button } from '@/components/ui/button';
 import { useDataTableColumns } from '@/hooks/use-data-table-columns';
 import { bookColumns } from '@/pages/Admin/Book/Column';
@@ -11,9 +13,12 @@ import type { PaginatedResponse } from '@/types/pagination';
 
 export default function Index({
     data: { data, meta, links },
+    filters,
 }: {
     data: PaginatedResponse<Book>;
+    filters: { search: string };
 }) {
+    const [search, setSearch] = useState(filters.search);
     const { columns, DeleteDialog } = useDataTableColumns(bookColumns, {
         onView: (book) => router.visit(show(book.id)),
         onEdit: (book) => router.visit(edit(book.id)),
@@ -34,6 +39,15 @@ export default function Index({
                 columns={columns}
                 meta={meta}
                 links={links}
+                toolbar={
+                    <Search
+                        url={index.url()}
+                        searchTerm={search}
+                        setSearchTerm={setSearch}
+                        placeholder="Search books..."
+                        only={['data', 'filters']}
+                    />
+                }
             />
             <DeleteDialog />
         </div>

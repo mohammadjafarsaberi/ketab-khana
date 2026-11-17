@@ -1,10 +1,12 @@
 import { Head, router } from '@inertiajs/react';
+import { useState } from 'react';
 import {
     destroy,
     update,
 } from '@/actions/App/Http/Controllers/BookReviewController';
 import { DataTable } from '@/components/data-table';
 import Heading from '@/components/heading';
+import Search from '@/components/Search';
 import { useDataTableColumns } from '@/hooks/use-data-table-columns';
 import { bookReviewColumns } from '@/pages/Admin/BookReview/Column';
 import type { BookReview } from '@/pages/Admin/BookReview/Column';
@@ -13,9 +15,12 @@ import type { PaginatedResponse } from '@/types/pagination';
 
 export default function Index({
     data: { data, meta, links },
+    filters,
 }: {
     data: PaginatedResponse<BookReview>;
+    filters: { search: string };
 }) {
+    const [search, setSearch] = useState(filters.search);
     const { columns, DeleteDialog } = useDataTableColumns(bookReviewColumns, {
         onView: (review) => router.visit(show(review.id)),
         onDelete: (review) => router.delete(destroy(review.id)),
@@ -42,6 +47,15 @@ export default function Index({
                 columns={columns}
                 meta={meta}
                 links={links}
+                toolbar={
+                    <Search
+                        url={index.url()}
+                        searchTerm={search}
+                        setSearchTerm={setSearch}
+                        placeholder="Search reviews..."
+                        only={['data', 'filters']}
+                    />
+                }
             />
             <DeleteDialog />
         </div>

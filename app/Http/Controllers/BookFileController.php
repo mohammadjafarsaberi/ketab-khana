@@ -2,28 +2,43 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Admin\AdminTableIndexRequest;
 use App\Http\Requests\Admin\BookFileRequest;
 use App\Http\Resources\BookFileResource;
 use App\Models\Book;
 use App\Models\BookFile;
 use App\Services\FileHandler;
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 use Inertia\Inertia;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class BookFileController extends Controller
 {
-    public function index(Request $request)
+    public function index(AdminTableIndexRequest $request)
     {
+        $search = $request->string('search')->trim()->toString();
+
         $bookFiles = QueryBuilder::for(BookFile::class)
+            ->when($search !== '', fn (Builder $query) => $query->where(function (Builder $query) use ($search): void {
+                $query->whereLike('format', "%{$search}%")
+                    ->orWhereLike('language', "%{$search}%")
+                    ->orWhereLike('version', "%{$search}%")
+                    ->orWhereLike('file_name', "%{$search}%")
+                    ->orWhereHas('book', fn (Builder $book) => $book->whereLike('title', "%{$search}%"));
+
+                if (ctype_digit($search)) {
+                    $query->orWhere('id', (int) $search);
+                }
+            }))
             ->with('book')
             ->allowedSorts('id', 'format', 'language', 'file_size', 'created_at')
             ->defaultSort('-created_at')
-            ->paginate($request->query('per_page', 10))
+            ->paginate($request->integer('per_page', 10))
             ->withQueryString();
 
         return Inertia::render('Admin/BookFile/Index', [
             'data' => BookFileResource::collection($bookFiles),
+            'filters' => ['search' => $search],
         ]);
     }
 

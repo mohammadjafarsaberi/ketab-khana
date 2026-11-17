@@ -2,30 +2,55 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Admin\AdminTableIndexRequest;
 use App\Http\Requests\Admin\BookRequest;
 use App\Http\Resources\BookResource;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Category;
 use App\Services\FileHandler;
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 use Inertia\Inertia;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class BookController extends Controller
 {
-    public function index(Request $request)
+    public function index(AdminTableIndexRequest $request)
     {
+        $search = $request->string('search')->trim()->toString();
+
         $books = QueryBuilder::for(Book::class)
+            ->when($search !== '', fn (Builder $query) => $query->where(function (Builder $query) use ($search): void {
+                $query->whereLike('title', "%{$search}%")
+                    ->orWhereLike('language', "%{$search}%")
+                    ->orWhereHas('author', fn (Builder $author) => $author->whereLike('name', "%{$search}%"))
+                    ->orWhereHas('category', fn (Builder $category) => $category->whereLike('name', "%{$search}%"));
+
+                if (ctype_digit($search)) {
+                    $query->orWhere('id', (int) $search)
+                        ->orWhere('downloads_count', (int) $search);
+                }
+
+                $active = match (strtolower($search)) {
+                    'yes', 'active', 'true' => true,
+                    'no', 'inactive', 'false' => false,
+                    default => null,
+                };
+
+                if ($active !== null) {
+                    $query->orWhere('is_active', $active);
+                }
+            }))
             ->with(['author', 'category'])
             ->withCount(['files', 'reviews', 'favorites'])
             ->allowedSorts('id', 'title', 'language', 'downloads_count', 'created_at')
             ->defaultSort('-created_at')
-            ->paginate($request->query('per_page', 10))
+            ->paginate($request->integer('per_page', 10))
             ->withQueryString();
 
         return Inertia::render('Admin/Book/Index', [
             'data' => BookResource::collection($books),
+            'filters' => ['search' => $search],
         ]);
     }
 

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Admin\AdminTableIndexRequest;
 use App\Http\Requests\Admin\AuthorRequest;
 use App\Http\Resources\AuthorResource;
 use App\Models\Author;
 use App\Services\FileHandler;
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 use Inertia\Inertia;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -15,17 +16,29 @@ class AuthorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(AdminTableIndexRequest $request)
     {
+        $search = $request->string('search')->trim()->toString();
+
         $authors = QueryBuilder::for(Author::class)
+            ->when($search !== '', fn (Builder $query) => $query->where(function (Builder $query) use ($search): void {
+                $query->whereLike('name', "%{$search}%")
+                    ->orWhereLike('bio', "%{$search}%");
+
+                if (ctype_digit($search)) {
+                    $query->orWhere('id', (int) $search)
+                        ->orHas('books', '=', (int) $search);
+                }
+            }))
             ->allowedSorts('id', 'name', 'created_at')
             ->withCount('books')
             ->defaultSort('-created_at')
-            ->paginate($request->query('per_page', 10))
+            ->paginate($request->integer('per_page', 10))
             ->withQueryString();
 
         return Inertia::render('Admin/Author/Index', [
             'data' => AuthorResource::collection($authors),
+            'filters' => ['search' => $search],
         ]);
     }
 

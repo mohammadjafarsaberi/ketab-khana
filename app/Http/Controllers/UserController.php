@@ -2,27 +2,52 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Admin\AdminTableIndexRequest;
 use App\Http\Requests\Admin\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Builder;
 use Inertia\Inertia;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class UserController extends Controller
 {
-    public function index(Request $request)
+    public function index(AdminTableIndexRequest $request)
     {
+        $search = $request->string('search')->trim()->toString();
+
         $users = QueryBuilder::for(User::class)
+            ->when($search !== '', fn (Builder $query) => $query->where(function (Builder $query) use ($search): void {
+                $query->whereLike('name', "%{$search}%")
+                    ->orWhereLike('email', "%{$search}%")
+                    ->orWhereLike('provider', "%{$search}%")
+                    ->orWhereHas('roles', fn (Builder $role) => $role->whereLike('name', "%{$search}%"));
+
+                if (ctype_digit($search)) {
+                    $query->orWhere('id', (int) $search)
+                        ->orWhere('total_downloads', (int) $search);
+                }
+
+                $banned = match (strtolower($search)) {
+                    'banned', 'blocked' => true,
+                    'active' => false,
+                    default => null,
+                };
+
+                if ($banned !== null) {
+                    $query->orWhere('is_banned', $banned);
+                }
+            }))
             ->with('roles')
             ->withCount(['downloads', 'favorites', 'reviews'])
             ->allowedSorts('id', 'name', 'email', 'total_downloads', 'is_banned', 'created_at')
             ->defaultSort('-created_at')
-            ->paginate($request->query('per_page', 10))
+            ->paginate($request->integer('per_page', 10))
             ->withQueryString();
 
         return Inertia::render('Admin/User/Index', [
             'data' => UserResource::collection($users),
+            'filters' => ['search' => $search],
         ]);
     }
 

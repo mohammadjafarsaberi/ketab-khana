@@ -1,7 +1,9 @@
 import { Head, Link, router } from '@inertiajs/react';
+import { useState } from 'react';
 import { destroy } from '@/actions/App/Http/Controllers/AuthorController';
 import { DataTable } from '@/components/data-table';
 import Heading from '@/components/heading';
+import Search from '@/components/Search';
 import { Button } from '@/components/ui/button';
 import { useDataTableColumns } from '@/hooks/use-data-table-columns';
 import type { Author } from '@/pages/Admin/Author/Column';
@@ -11,9 +13,12 @@ import type { PaginatedResponse } from '@/types/pagination';
 
 export default function Index({
     data: { data, meta, links },
+    filters,
 }: {
     data: PaginatedResponse<Author>;
+    filters: { search: string };
 }) {
+    const [search, setSearch] = useState(filters.search);
     const { columns, DeleteDialog } = useDataTableColumns(authorColumns, {
         onView: (author) => router.visit(show(author.id)),
         onEdit: (author) => router.visit(edit(author.id)),
@@ -40,6 +45,15 @@ export default function Index({
                 columns={columns}
                 meta={meta}
                 links={links}
+                toolbar={
+                    <Search
+                        url={index.url()}
+                        searchTerm={search}
+                        setSearchTerm={setSearch}
+                        placeholder="Search authors..."
+                        only={['data', 'filters']}
+                    />
+                }
             />
 
             <DeleteDialog />

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck -- Legacy page retained temporarily; reviews are user-authored.
 import { Form, Head } from '@inertiajs/react';
+import { FormSelect } from '@/components/form-select';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
@@ -24,18 +25,15 @@ export default function Create({
                     <div className="space-y-4">
                         <div>
                             <Label htmlFor="book_id">Book</Label>
-                            <select
+                            <FormSelect
                                 id="book_id"
                                 name="book_id"
-                                className="h-9 w-full rounded-md border bg-transparent px-3 text-sm"
-                            >
-                                <option value="">Select book</option>
-                                {books.map((book) => (
-                                    <option key={book.id} value={book.id}>
-                                        {book.title}
-                                    </option>
-                                ))}
-                            </select>
+                                placeholder="Select book"
+                                options={books.map((book) => ({
+                                    value: book.id,
+                                    label: book.title,
+                                }))}
+                            />
                             {errors.book_id && (
                                 <p className="mt-1 text-sm text-red-500">
                                     {errors.book_id}
@@ -44,18 +42,15 @@ export default function Create({
                         </div>
                         <div>
                             <Label htmlFor="user_id">User</Label>
-                            <select
+                            <FormSelect
                                 id="user_id"
                                 name="user_id"
-                                className="h-9 w-full rounded-md border bg-transparent px-3 text-sm"
-                            >
-                                <option value="">Select user</option>
-                                {users.map((user) => (
-                                    <option key={user.id} value={user.id}>
-                                        {user.name ?? user.email}
-                                    </option>
-                                ))}
-                            </select>
+                                placeholder="Select user"
+                                options={users.map((user) => ({
+                                    value: user.id,
+                                    label: user.name ?? user.email,
+                                }))}
+                            />
                             {errors.user_id && (
                                 <p className="mt-1 text-sm text-red-500">
                                     {errors.user_id}
@@ -64,17 +59,15 @@ export default function Create({
                         </div>
                         <div>
                             <Label htmlFor="rating">Rating</Label>
-                            <select
+                            <FormSelect
                                 id="rating"
                                 name="rating"
-                                className="h-9 w-full rounded-md border bg-transparent px-3 text-sm"
-                            >
-                                {[1, 2, 3, 4, 5].map((rating) => (
-                                    <option key={rating} value={rating}>
-                                        {rating}
-                                    </option>
-                                ))}
-                            </select>
+                                defaultValue={1}
+                                options={[1, 2, 3, 4, 5].map((rating) => ({
+                                    value: rating,
+                                    label: rating,
+                                }))}
+                            />
                         </div>
                         <div>
                             <Label htmlFor="review_text">Review</Label>

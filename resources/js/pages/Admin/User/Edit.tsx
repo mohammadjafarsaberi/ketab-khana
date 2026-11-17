@@ -1,5 +1,6 @@
 import { Form, Head } from '@inertiajs/react';
 import { update } from '@/actions/App/Http/Controllers/UserController';
+import { FormSelect } from '@/components/form-select';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
@@ -65,15 +66,15 @@ export default function Edit({ user }: { user: AdminUser }) {
                         </div>
                         <div>
                             <Label htmlFor="role">Role</Label>
-                            <select
+                            <FormSelect
                                 id="role"
                                 name="role"
                                 defaultValue={user.role}
-                                className="h-9 w-full rounded-md border bg-transparent px-3 text-sm"
-                            >
-                                <option value="user">User</option>
-                                <option value="admin">Admin</option>
-                            </select>
+                                options={[
+                                    { value: 'user', label: 'User' },
+                                    { value: 'admin', label: 'Admin' },
+                                ]}
+                            />
                             {errors.role && (
                                 <p className="mt-1 text-sm text-red-500">
                                     {errors.role}

@@ -1,6 +1,7 @@
 import { Head, Link, router } from '@inertiajs/react';
 import { ArrowRight, Search, Users } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { FormSelect } from '@/components/form-select';
 import authorsRoutes from '@/routes/authors';
 import categoriesRoutes from '@/routes/categories';
 import type { DirectoryPage, PublicAuthor } from '@/types';
@@ -109,22 +110,23 @@ export default function AuthorsIndex({
                         </strong>{' '}
                         authors found
                     </p>
-                    <select
+                    <FormSelect
                         aria-label="Sort authors"
                         value={filters.sort ?? 'name'}
-                        onChange={(event) =>
+                        onValueChange={(value) =>
                             visit({
                                 ...filters,
-                                sort: event.target.value as Filters['sort'],
+                                sort: value as Filters['sort'],
                                 page: 1,
                             })
                         }
-                        className="h-11 rounded-xl border border-[#d9c2ad] bg-white px-4 text-sm outline-none focus:border-[#B84E4E]"
-                    >
-                        <option value="name">Name A–Z</option>
-                        <option value="books">Most books</option>
-                        <option value="downloaded">Most downloaded</option>
-                    </select>
+                        className="h-11 w-52 rounded-xl border-[#d9c2ad] bg-white focus-visible:border-[#B84E4E]"
+                        options={[
+                            { value: 'name', label: 'Name A–Z' },
+                            { value: 'books', label: 'Most books' },
+                            { value: 'downloaded', label: 'Most downloaded' },
+                        ]}
+                    />
                 </div>
 
                 {authors.data.length > 0 ? (

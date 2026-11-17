@@ -1,6 +1,7 @@
 import { router } from '@inertiajs/react';
 import { Search, SlidersHorizontal, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { FormSelect } from '@/components/form-select';
 import { BookGrid } from '@/components/public/book-grid';
 import type { BookDiscoveryFilters, PaginatedBooks } from '@/types';
 
@@ -313,21 +314,26 @@ function FilterSelect({
                     {label}
                 </span>
             )}
-            <select
+            <FormSelect
                 aria-label={label}
                 value={value ?? ''}
-                onChange={(event) => onChange(event.target.value)}
-                className={`${compact ? 'w-auto' : 'w-full'} h-11 rounded-xl border border-[#dfcdbb] bg-white px-3 text-sm outline-none focus:border-[#B84E4E]`}
-            >
-                {!compact && (
-                    <option value="">All {label.toLowerCase()}s</option>
-                )}
-                {options.map((option) => (
-                    <option key={option.id} value={option.id}>
-                        {option.name}
-                    </option>
-                ))}
-            </select>
+                onValueChange={onChange}
+                className={`${compact ? 'w-auto' : 'w-full'} h-11 rounded-xl border-[#dfcdbb] bg-white focus-visible:border-[#B84E4E]`}
+                options={[
+                    ...(!compact
+                        ? [
+                              {
+                                  value: '',
+                                  label: `All ${label.toLowerCase()}s`,
+                              },
+                          ]
+                        : []),
+                    ...options.map((option) => ({
+                        value: option.id,
+                        label: option.name,
+                    })),
+                ]}
+            />
         </label>
     );
 }

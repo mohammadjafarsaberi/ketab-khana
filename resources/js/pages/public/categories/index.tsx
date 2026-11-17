@@ -1,6 +1,7 @@
 import { Head, Link, router } from '@inertiajs/react';
 import { ArrowRight, BookOpen, Search } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { FormSelect } from '@/components/form-select';
 import categoriesRoutes from '@/routes/categories';
 import type { DirectoryPage, PublicCategory } from '@/types';
 
@@ -83,22 +84,23 @@ export default function CategoriesIndex({
                         </strong>{' '}
                         categories to explore
                     </p>
-                    <select
+                    <FormSelect
                         aria-label="Sort categories"
                         value={filters.sort ?? 'popular'}
-                        onChange={(event) =>
+                        onValueChange={(value) =>
                             visit({
                                 ...filters,
-                                sort: event.target.value as Filters['sort'],
+                                sort: value as Filters['sort'],
                                 page: 1,
                             })
                         }
-                        className="h-11 rounded-xl border border-[#d9c2ad] bg-white px-4 text-sm outline-none focus:border-[#B84E4E]"
-                    >
-                        <option value="popular">Most popular</option>
-                        <option value="books">Most books</option>
-                        <option value="name">Name A–Z</option>
-                    </select>
+                        className="h-11 w-52 rounded-xl border-[#d9c2ad] bg-white focus-visible:border-[#B84E4E]"
+                        options={[
+                            { value: 'popular', label: 'Most popular' },
+                            { value: 'books', label: 'Most books' },
+                            { value: 'name', label: 'Name A–Z' },
+                        ]}
+                    />
                 </div>
 
                 {categories.data.length > 0 ? (

@@ -1,6 +1,7 @@
 import { Head, router } from '@inertiajs/react';
 import { Search, SlidersHorizontal, X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
+import { FormSelect } from '@/components/form-select';
 import { BookGrid } from '@/components/public/book-grid';
 import booksRoutes from '@/routes/books';
 import type { PaginatedBooks } from '@/types';
@@ -290,19 +291,18 @@ export default function Catalog({
                                         : 'database fallback'}
                                 </span>
                             </p>
-                            <select
+                            <FormSelect
                                 aria-label="Sort books"
                                 value={filters.sort ?? 'relevance'}
-                                onChange={(event) =>
-                                    update('sort', event.target.value)
-                                }
-                                className="h-11 rounded-xl border border-[#dfcdbb] bg-white px-3 text-sm outline-none focus:border-[#B84E4E]"
-                            >
-                                <option value="relevance">Relevance</option>
-                                <option value="newest">Newest</option>
-                                <option value="popular">Popular</option>
-                                <option value="title">Title A–Z</option>
-                            </select>
+                                onValueChange={(value) => update('sort', value)}
+                                className="h-11 w-44 rounded-xl border-[#dfcdbb] bg-white focus-visible:border-[#B84E4E]"
+                                options={[
+                                    { value: 'relevance', label: 'Relevance' },
+                                    { value: 'newest', label: 'Newest' },
+                                    { value: 'popular', label: 'Popular' },
+                                    { value: 'title', label: 'Title A–Z' },
+                                ]}
+                            />
                         </div>
                         {loading ? (
                             <BookSkeletons />
@@ -372,19 +372,22 @@ function FilterSelect({
             <span className="mb-2 block text-xs font-bold tracking-wide text-[#806c60] uppercase">
                 {label}
             </span>
-            <select
+            <FormSelect
                 aria-label={label}
                 value={value ?? ''}
-                onChange={(event) => onChange(event.target.value)}
-                className="h-11 w-full rounded-xl border border-[#dfcdbb] bg-white px-3 text-sm outline-none focus:border-[#B84E4E]"
-            >
-                <option value="">All {label.toLowerCase()}s</option>
-                {options.map((option) => (
-                    <option key={option.id} value={option.id}>
-                        {option.name}
-                    </option>
-                ))}
-            </select>
+                onValueChange={onChange}
+                className="h-11 w-full rounded-xl border-[#dfcdbb] bg-white focus-visible:border-[#B84E4E]"
+                options={[
+                    {
+                        value: '',
+                        label: `All ${label.toLowerCase()}s`,
+                    },
+                    ...options.map((option) => ({
+                        value: option.id,
+                        label: option.name,
+                    })),
+                ]}
+            />
         </label>
     );
 }

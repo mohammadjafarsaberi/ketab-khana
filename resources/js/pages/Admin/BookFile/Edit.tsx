@@ -1,6 +1,7 @@
 import { Form, Head } from '@inertiajs/react';
 import { update } from '@/actions/App/Http/Controllers/BookFileController';
 import { FileInput } from '@/components/file-input';
+import { FormSelect } from '@/components/form-select';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -22,31 +23,28 @@ export default function Edit({
                     <div className="space-y-4">
                         <div>
                             <Label htmlFor="book_id">Book</Label>
-                            <select
+                            <FormSelect
                                 id="book_id"
                                 name="book_id"
                                 defaultValue={bookFile.book_id}
-                                className="h-9 w-full rounded-md border bg-transparent px-3 text-sm"
-                            >
-                                {books.map((book) => (
-                                    <option key={book.id} value={book.id}>
-                                        {book.title}
-                                    </option>
-                                ))}
-                            </select>
+                                options={books.map((book) => ({
+                                    value: book.id,
+                                    label: book.title,
+                                }))}
+                            />
                         </div>
                         <div>
                             <Label htmlFor="format">Format</Label>
-                            <select
+                            <FormSelect
                                 id="format"
                                 name="format"
                                 defaultValue={bookFile.format}
-                                className="h-9 w-full rounded-md border bg-transparent px-3 text-sm"
-                            >
-                                <option value="pdf">PDF</option>
-                                <option value="epub">EPUB</option>
-                                <option value="mobi">MOBI</option>
-                            </select>
+                                options={[
+                                    { value: 'pdf', label: 'PDF' },
+                                    { value: 'epub', label: 'EPUB' },
+                                    { value: 'mobi', label: 'MOBI' },
+                                ]}
+                            />
                         </div>
                         <div className="grid gap-4 md:grid-cols-2">
                             <div>

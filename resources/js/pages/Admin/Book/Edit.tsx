@@ -1,6 +1,7 @@
 import { Form, Head } from '@inertiajs/react';
 import { update } from '@/actions/App/Http/Controllers/BookController';
 import { FileInput } from '@/components/file-input';
+import { FormSelect } from '@/components/form-select';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
@@ -52,39 +53,27 @@ export default function Edit({
                         <div className="grid gap-4 md:grid-cols-2">
                             <div>
                                 <Label htmlFor="author_id">Author</Label>
-                                <select
+                                <FormSelect
                                     id="author_id"
                                     name="author_id"
                                     defaultValue={book.author_id}
-                                    className="h-9 w-full rounded-md border bg-transparent px-3 text-sm"
-                                >
-                                    {authors.map((author) => (
-                                        <option
-                                            key={author.id}
-                                            value={author.id}
-                                        >
-                                            {author.name}
-                                        </option>
-                                    ))}
-                                </select>
+                                    options={authors.map((author) => ({
+                                        value: author.id,
+                                        label: author.name,
+                                    }))}
+                                />
                             </div>
                             <div>
                                 <Label htmlFor="category_id">Category</Label>
-                                <select
+                                <FormSelect
                                     id="category_id"
                                     name="category_id"
                                     defaultValue={book.category_id}
-                                    className="h-9 w-full rounded-md border bg-transparent px-3 text-sm"
-                                >
-                                    {categories.map((category) => (
-                                        <option
-                                            key={category.id}
-                                            value={category.id}
-                                        >
-                                            {category.name}
-                                        </option>
-                                    ))}
-                                </select>
+                                    options={categories.map((category) => ({
+                                        value: category.id,
+                                        label: category.name,
+                                    }))}
+                                />
                             </div>
                         </div>
                         <div className="grid gap-4 md:grid-cols-3">

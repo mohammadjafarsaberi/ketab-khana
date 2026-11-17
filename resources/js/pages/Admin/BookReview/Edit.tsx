@@ -1,5 +1,6 @@
 import { Form, Head } from '@inertiajs/react';
 import { update } from '@/actions/App/Http/Controllers/BookReviewController';
+import { FormSelect } from '@/components/form-select';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
@@ -24,48 +25,39 @@ export default function Edit({
                     <div className="space-y-4">
                         <div>
                             <Label htmlFor="book_id">Book</Label>
-                            <select
+                            <FormSelect
                                 id="book_id"
                                 name="book_id"
                                 defaultValue={bookReview.book_id}
-                                className="h-9 w-full rounded-md border bg-transparent px-3 text-sm"
-                            >
-                                {books.map((book) => (
-                                    <option key={book.id} value={book.id}>
-                                        {book.title}
-                                    </option>
-                                ))}
-                            </select>
+                                options={books.map((book) => ({
+                                    value: book.id,
+                                    label: book.title,
+                                }))}
+                            />
                         </div>
                         <div>
                             <Label htmlFor="user_id">User</Label>
-                            <select
+                            <FormSelect
                                 id="user_id"
                                 name="user_id"
                                 defaultValue={bookReview.user_id}
-                                className="h-9 w-full rounded-md border bg-transparent px-3 text-sm"
-                            >
-                                {users.map((user) => (
-                                    <option key={user.id} value={user.id}>
-                                        {user.name ?? user.email}
-                                    </option>
-                                ))}
-                            </select>
+                                options={users.map((user) => ({
+                                    value: user.id,
+                                    label: user.name ?? user.email,
+                                }))}
+                            />
                         </div>
                         <div>
                             <Label htmlFor="rating">Rating</Label>
-                            <select
+                            <FormSelect
                                 id="rating"
                                 name="rating"
                                 defaultValue={bookReview.rating}
-                                className="h-9 w-full rounded-md border bg-transparent px-3 text-sm"
-                            >
-                                {[1, 2, 3, 4, 5].map((rating) => (
-                                    <option key={rating} value={rating}>
-                                        {rating}
-                                    </option>
-                                ))}
-                            </select>
+                                options={[1, 2, 3, 4, 5].map((rating) => ({
+                                    value: rating,
+                                    label: rating,
+                                }))}
+                            />
                         </div>
                         <div>
                             <Label htmlFor="review_text">Review</Label>

@@ -1,6 +1,7 @@
 import { Form, Head } from '@inertiajs/react';
 import { store } from '@/actions/App/Http/Controllers/BookController';
 import { FileInput } from '@/components/file-input';
+import { FormSelect } from '@/components/form-select';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
@@ -42,21 +43,15 @@ export default function Create({
                         <div className="grid gap-4 md:grid-cols-2">
                             <div>
                                 <Label htmlFor="author_id">Author</Label>
-                                <select
+                                <FormSelect
                                     id="author_id"
                                     name="author_id"
-                                    className="h-9 w-full rounded-md border bg-transparent px-3 text-sm"
-                                >
-                                    <option value="">Select author</option>
-                                    {authors.map((author) => (
-                                        <option
-                                            key={author.id}
-                                            value={author.id}
-                                        >
-                                            {author.name}
-                                        </option>
-                                    ))}
-                                </select>
+                                    placeholder="Select author"
+                                    options={authors.map((author) => ({
+                                        value: author.id,
+                                        label: author.name,
+                                    }))}
+                                />
                                 {errors.author_id && (
                                     <p className="mt-1 text-sm text-red-500">
                                         {errors.author_id}
@@ -65,21 +60,15 @@ export default function Create({
                             </div>
                             <div>
                                 <Label htmlFor="category_id">Category</Label>
-                                <select
+                                <FormSelect
                                     id="category_id"
                                     name="category_id"
-                                    className="h-9 w-full rounded-md border bg-transparent px-3 text-sm"
-                                >
-                                    <option value="">Select category</option>
-                                    {categories.map((category) => (
-                                        <option
-                                            key={category.id}
-                                            value={category.id}
-                                        >
-                                            {category.name}
-                                        </option>
-                                    ))}
-                                </select>
+                                    placeholder="Select category"
+                                    options={categories.map((category) => ({
+                                        value: category.id,
+                                        label: category.name,
+                                    }))}
+                                />
                                 {errors.category_id && (
                                     <p className="mt-1 text-sm text-red-500">
                                         {errors.category_id}

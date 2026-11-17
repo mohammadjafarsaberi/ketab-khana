@@ -1,6 +1,7 @@
 import { Form, Head } from '@inertiajs/react';
 import { store } from '@/actions/App/Http/Controllers/BookFileController';
 import { FileInput } from '@/components/file-input';
+import { FormSelect } from '@/components/form-select';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -15,18 +16,15 @@ export default function Create({ books }: { books: Option[] }) {
                     <div className="space-y-4">
                         <div>
                             <Label htmlFor="book_id">Book</Label>
-                            <select
+                            <FormSelect
                                 id="book_id"
                                 name="book_id"
-                                className="h-9 w-full rounded-md border bg-transparent px-3 text-sm"
-                            >
-                                <option value="">Select book</option>
-                                {books.map((book) => (
-                                    <option key={book.id} value={book.id}>
-                                        {book.title}
-                                    </option>
-                                ))}
-                            </select>
+                                placeholder="Select book"
+                                options={books.map((book) => ({
+                                    value: book.id,
+                                    label: book.title,
+                                }))}
+                            />
                             {errors.book_id && (
                                 <p className="mt-1 text-sm text-red-500">
                                     {errors.book_id}
@@ -35,15 +33,16 @@ export default function Create({ books }: { books: Option[] }) {
                         </div>
                         <div>
                             <Label htmlFor="format">Format</Label>
-                            <select
+                            <FormSelect
                                 id="format"
                                 name="format"
-                                className="h-9 w-full rounded-md border bg-transparent px-3 text-sm"
-                            >
-                                <option value="pdf">PDF</option>
-                                <option value="epub">EPUB</option>
-                                <option value="mobi">MOBI</option>
-                            </select>
+                                defaultValue="pdf"
+                                options={[
+                                    { value: 'pdf', label: 'PDF' },
+                                    { value: 'epub', label: 'EPUB' },
+                                    { value: 'mobi', label: 'MOBI' },
+                                ]}
+                            />
                         </div>
                         <div className="grid gap-4 md:grid-cols-2">
                             <div>

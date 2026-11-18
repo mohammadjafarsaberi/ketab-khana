@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1.7
+
 FROM php:8.4-cli-bookworm AS php-base
 
 RUN apt-get update \
@@ -8,6 +10,7 @@ RUN apt-get update \
         libpng-dev \
         libpq-dev \
         libzip-dev \
+        git \
         unzip \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j"$(nproc)" bcmath gd intl opcache pcntl pdo_pgsql zip \
@@ -21,7 +24,11 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 COPY --from=node:22-bookworm /usr/local/ /usr/local/
 COPY . .
 
-RUN composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader \
+RUN --mount=type=cache,target=/tmp/composer-cache \
+    export COMPOSER_CACHE_DIR=/tmp/composer-cache COMPOSER_MAX_PARALLEL_HTTP=4; \
+    composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader \
+    || composer install --prefer-dist --no-interaction --no-progress --optimize-autoloader \
+    || composer install --prefer-source --no-interaction --no-progress --optimize-autoloader \
     && php artisan storage:link \
     && npm ci \
     && npm run build \

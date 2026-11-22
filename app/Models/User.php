@@ -99,9 +99,9 @@ class User extends Authenticatable
                 'provider' => 'google',
                 'provider_id' => $googleUser->getId(),
                 'avatar' => $googleUser->getAvatar(),
-                'email_verified_at' => now(),
                 'name' => $googleUser->getName() ?? $user->name,
             ]);
+            $user->forceFill(['email_verified_at' => now()])->save();
 
             if (! $user->roles()->exists()) {
                 $user->assignRole('user');
@@ -117,9 +117,9 @@ class User extends Authenticatable
             'provider' => 'google',
             'provider_id' => $googleUser->getId(),
             'avatar' => $googleUser->getAvatar(),
-            'email_verified_at' => now(),
             'password' => null,
         ]);
+        $user->forceFill(['email_verified_at' => now()])->save();
 
         $user->assignRole('user');
 
